@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.rpgc_entity.field_rpgc_dndbasic_stat_con
+    - rpgc.rpgc_entity_type.rpgc_dndbasic
+id: rpgc_entity.rpgc_dndbasic.field_rpgc_dndbasic_stat_con
+field_name: field_rpgc_dndbasic_stat_con
+entity_type: rpgc_entity
+bundle: rpgc_dndbasic
+label: Constitution
+description: 'A measure of health and endurance.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 3
+  max: 18
+  prefix: ''
+  suffix: ''
+field_type: integer

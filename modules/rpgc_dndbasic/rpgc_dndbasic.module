@@ -1,0 +1,215 @@
+<?php
+
+/**
+ * @file
+ * Contains rpgc_dndbasic.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+use Drupal\Core\Form\FormStateInterface;
+
+// Define the code for this game system as a constant.
+define('RPGC_DNDBASIC_GAME_SYSTEM', 'dndbasic');
+
+/**
+ * Implements hook_help().
+ */
+function rpgc_dndbasic_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the rpgc_dndbasic module.
+    case 'help.page.rpgc_dndbasic':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('D&amp;D Basic character creation') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function rpgc_dndbasic_theme() {
+  return [
+    'rpgc_dndbasic' => [
+      'render element' => 'children',
+    ],
+  ];
+}
+
+/**
+ * Implements hook_form_alter().
+ */
+function rpgc_dndbasic_form_alter(&$form, FormStateInterface $form_state, $form_id) {
+  if ($form_id == 'rpgc_entity_rpgc_dndbasic_add_form') {
+    // dump($form);
+    $rpgc_utility = Drupal::service('rpgc.utility');
+    $systemconfig = $rpgc_utility->readMyYaml('rpgc_' . RPGC_DNDBASIC_GAME_SYSTEM);
+
+    // Stats.
+    $defaultdice = $systemconfig['defaultdicedetails'];
+    foreach ($systemconfig['statistics'] as $key => $value) {
+      $rollem = $rpgc_utility->rollDice($defaultdice['dietype'], $defaultdice['numthrown'], $defaultdice['numcounted']);
+      $lowdie = array_pop($rollem['dicethrown']);
+      $rolled_message = '<br/>[rolled: ';
+      foreach ($rollem['dicethrown'] as $rkey => $rvalue) {
+        $rolled_message .= $rvalue . ', ';
+      }
+      $rolled_message .= '(' . $lowdie . ')]';
+      $form['field_' . $key]['widget'][0]['value']['#default_value'] = $rollem['sum'];
+      $form['field_' . $key]['widget'][0]['value']['#description'] .= $rolled_message;
+      // Save for later when we do min reqs.
+      $stats[$key] = $rollem['sum'];
+    }
+
+    // Alignment.
+    $which_align = array_rand($systemconfig['alignment']);
+    $form['field_rpgc_dndbasic_align']['widget']['#default_value'] = $systemconfig['alignment'][$which_align];
+
+    // Sex.
+    $which_sex = array_rand($systemconfig['sex']);
+    $form['sex']['widget'][0]['value']['#default_value'] = $systemconfig['sex'][$which_sex];
+
+    // Class.
+    // Get a full list of classes.
+    $classes = $systemconfig['classes'];
+
+    // Next, we start disqualifying based on rolled stats and min reqs.
+    foreach ($classes as $key => $value) {
+      if (!empty($value['minimumrequirements'])) {
+        foreach ($value['minimumrequirements'] as $mrkey => $mrvalue) {
+          // Check if the rolled stats match or exceed this min req.
+          if ($stats[$mrkey] < $mrvalue) {
+            unset($classes[$key]);
+            break;
+          }
+        }
+      }
+    }
+
+    $primereqs = [];
+    foreach ($stats as $key => $value) {
+      switch ($value) {
+        case 13:
+        case 14:
+        case 15:
+          $primereqs[$key] = [
+            'stat' => $value,
+            'weight' => 1,
+          ];
+          break;
+
+        case 16:
+        case 17:
+          $primereqs[$key] = [
+            'stat' => $value,
+            'weight' => 2,
+          ];
+          break;
+
+        case 18:
+          $primereqs[$key] = [
+            'stat' => $value,
+            'weight' => 4,
+          ];
+          break;
+
+        default:
+          break;
+      }
+
+    }
+    uasort($primereqs, 'cmp');
+
+    // Step through the remaining classes and assign weights.
+    foreach ($classes as $key => $value) {
+      $classes[$key]['weight'] = 0;
+      if (!empty($value['primerequisites'])) {
+        foreach ($value['primerequisites'] as $prkey => $prvalue) {
+          if (!empty($primereqs[$prvalue])) {
+            $classes[$key]['weight'] += $primereqs[$prvalue]['weight'];
+          }
+        }
+      }
+    }
+    uasort($classes, 'cmp');
+
+    // Narrow down the contenders.
+    $contenders = [];
+    $weightiest = 0;
+    foreach ($classes as $key => $value) {
+      if ($value['weight'] >= $weightiest) {
+        $contenders[$key] = $classes[$key];
+        $weightiest = $value['weight'];
+      }
+    }
+    $chosen_class = array_rand($contenders);
+
+    $form['class']['widget'][0]['value']['#default_value'] = $classes[$chosen_class]['label'];
+    $form['race']['widget'][0]['value']['#default_value'] = $classes[$chosen_class]['race'];
+    $hitpoints = $rpgc_utility->rollDice($classes[$chosen_class]['hitdice'], 1, 1, stat_modifiers($stats['rpgc_dndbasic_stat_con']));
+    if (!empty($classes[$chosen_class]['minimumhitpoints'])) {
+      $minhp = $classes[$chosen_class]['minimumhitpoints'];
+    }
+    else {
+      $minhp = $defaultdice['minimumhitpoints'];
+    }
+    if ($hitpoints['sum'] < $minhp) {
+      $hitpoints['sum'] = $minhp;
+    }
+    $form['field_rpgc_dndbasic_hp']['widget'][0]['value']['#default_value'] = $hitpoints['sum'];
+  }
+}
+
+/**
+ * Compare function to sort stats by weight.
+ */
+function cmp($a, $b) {
+  if ($a['weight'] == $b['weight']) {
+    return 0;
+  }
+  return ($a['weight'] > $b['weight']) ? -1 : 1;
+}
+
+/**
+ * Return modifiers based on stats.
+ */
+function stat_modifiers($stat) {
+  switch ($stat) {
+    case 3:
+      $return = -3;
+      break;
+
+    case 4:
+    case 5:
+      $return = -2;
+      break;
+
+    case 6:
+    case 7:
+    case 8:
+      $return = -1;
+      break;
+
+    case 13:
+    case 14:
+    case 15:
+      $return = 1;
+      break;
+
+    case 16:
+    case 17:
+      $return = 2;
+      break;
+
+    case 18:
+      $return = 3;
+      break;
+
+    default:
+      $return = 0;
+      break;
+  }
+  return $return;
+}

@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the rpgc_coc3 module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ *
+ * All entities of type `rpgc_coc3` will be deleted, followed closely by
+ * the entity type bundle itself. Scorched earth.
+ */
+function rpgc_coc3_uninstall() {
+  // Delete all RPGC entities of given content type.
+  $storage_handler = \Drupal::entityTypeManager()
+    ->getStorage('rpgc_entity');
+  $nodes = $storage_handler->loadByProperties(['type' => 'rpgc_coc3']);
+  $storage_handler->delete($nodes);
+
+  // Delete content type.
+  $content_type = \Drupal::entityTypeManager()
+    ->getStorage('rpgc_entity_type')
+    ->load('rpgc_coc3');
+  $content_type->delete();
+}

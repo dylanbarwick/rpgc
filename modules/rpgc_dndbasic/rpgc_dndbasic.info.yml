@@ -1,0 +1,7 @@
+name: 'RPGC - D&D Basic'
+type: module
+description: 'D&D Basic character creation'
+core: 8.x
+package: 'RPGC'
+dependencies:
+  - rpgc

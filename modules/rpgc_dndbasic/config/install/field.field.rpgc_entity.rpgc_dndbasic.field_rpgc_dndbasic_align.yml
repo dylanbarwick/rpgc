@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.rpgc_entity.field_rpgc_dndbasic_align
+    - rpgc.rpgc_entity_type.rpgc_dndbasic
+  module:
+    - options
+id: rpgc_entity.rpgc_dndbasic.field_rpgc_dndbasic_align
+field_name: field_rpgc_dndbasic_align
+entity_type: rpgc_entity
+bundle: rpgc_dndbasic
+label: Alignment
+description: 'Three basic ways of life guide the acts of both player characters and monsters. Each way of life is called an alignment. The three alignments are named Law, Chaos, and Neutrality.'
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

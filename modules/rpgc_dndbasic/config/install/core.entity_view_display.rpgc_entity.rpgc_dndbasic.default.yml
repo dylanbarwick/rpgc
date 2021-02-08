@@ -1,0 +1,151 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.rpgc_entity.rpgc_dndbasic.field_rpgc_dndbasic_align
+    - field.field.rpgc_entity.rpgc_dndbasic.field_rpgc_dndbasic_hp
+    - field.field.rpgc_entity.rpgc_dndbasic.field_rpgc_dndbasic_lvl
+    - field.field.rpgc_entity.rpgc_dndbasic.field_rpgc_dndbasic_stat_cha
+    - field.field.rpgc_entity.rpgc_dndbasic.field_rpgc_dndbasic_stat_con
+    - field.field.rpgc_entity.rpgc_dndbasic.field_rpgc_dndbasic_stat_dex
+    - field.field.rpgc_entity.rpgc_dndbasic.field_rpgc_dndbasic_stat_int
+    - field.field.rpgc_entity.rpgc_dndbasic.field_rpgc_dndbasic_stat_str
+    - field.field.rpgc_entity.rpgc_dndbasic.field_rpgc_dndbasic_stat_wis
+    - rpgc.rpgc_entity_type.rpgc_dndbasic
+  module:
+    - options
+    - user
+id: rpgc_entity.rpgc_dndbasic.default
+targetEntityType: rpgc_entity
+bundle: rpgc_dndbasic
+mode: default
+content:
+  class:
+    label: above
+    type: string
+    weight: -4
+    placeholder: 'Fighter/Cleric/Professor/Dilletante/Space Pirate...'
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  field_rpgc_dndbasic_align:
+    weight: 14
+    label: above
+    settings: {  }
+    third_party_settings: {  }
+    type: list_default
+    region: content
+  field_rpgc_dndbasic_hp:
+    weight: 13
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_rpgc_dndbasic_lvl:
+    weight: 12
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_rpgc_dndbasic_stat_cha:
+    weight: 11
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_rpgc_dndbasic_stat_con:
+    weight: 10
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_rpgc_dndbasic_stat_dex:
+    weight: 9
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_rpgc_dndbasic_stat_int:
+    weight: 7
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_rpgc_dndbasic_stat_str:
+    weight: 6
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_rpgc_dndbasic_stat_wis:
+    weight: 8
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  history:
+    label: visible
+    type: basic_string
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  name:
+    label: above
+    type: string
+    weight: -4
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  race:
+    label: above
+    type: string
+    weight: -4
+    placeholder: Human/Elf/Orc/Centaur...
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  sex:
+    label: above
+    type: string
+    weight: -4
+    placeholder: Male/Female
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  user_id:
+    label: hidden
+    type: author
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

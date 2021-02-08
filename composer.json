@@ -1,0 +1,13 @@
+{
+    "name": "rpgc",
+    "type": "drupal-module",
+    "description": "Content entity for RPG characters",
+    "keywords": [
+    ],
+    "homepage": "https://www.drupal.org/project/rpgc",
+    "minimum-stability": "dev",
+    "support": {
+        "issues": "https://www.drupal.org/project/issues/rpgc",
+        "source": "http://cgit.drupalcode.org/rpgc",
+    },
+}

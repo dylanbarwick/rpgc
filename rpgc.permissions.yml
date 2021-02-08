@@ -1,0 +1,36 @@
+add rpgc entity entities:
+  title: 'Create new RPGC Entity entities'
+
+administer rpgc entity entities:
+  title: 'Administer RPGC Entity entities'
+  description: 'Allow to access the administration form to configure RPGC Entity entities.'
+  restrict access: true
+
+delete rpgc entity entities:
+  title: 'Delete RPGC Entity entities'
+
+edit rpgc entity entities:
+  title: 'Edit RPGC Entity entities'
+
+view published rpgc entity entities:
+  title: 'View published RPGC Entity entities'
+
+view unpublished rpgc entity entities:
+  title: 'View unpublished RPGC Entity entities'
+
+view all rpgc entity revisions:
+  title: 'View all RPGC Entity revisions'
+
+revert all rpgc entity revisions:
+  title: 'Revert all RPGC Entity revisions'
+  description: 'Role requires permission <em>view RPGC Entity revisions</em> and <em>edit rights</em> for rpgc entity entities in question or <em>administer rpgc entity entities</em>.'
+
+delete all rpgc entity revisions:
+  title: 'Delete all revisions'
+  description: 'Role requires permission to <em>view RPGC Entity revisions</em> and <em>delete rights</em> for rpgc entity entities in question or <em>administer rpgc entity entities</em>.'
+
+permission_callbacks:
+  - \Drupal\rpgc\RPGCEntityPermissions::generatePermissions
+access the system-picker page:
+  title: 'Access the system-picker page'
+  description: 'Allow the user to see the list of systems available to him'

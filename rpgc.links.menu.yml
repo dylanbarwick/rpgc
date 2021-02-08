@@ -1,0 +1,17 @@
+
+# RPGC Entity menu items definition
+entity.rpgc_entity.collection:
+  title: 'RPGC Entity list'
+  route_name: entity.rpgc_entity.collection
+  description: 'List RPGC Entity entities'
+  parent: system.admin_structure
+  weight: 100
+
+
+# RPGC Entity type menu items definition
+entity.rpgc_entity_type.collection:
+  title: 'RPGC Entity type'
+  route_name: entity.rpgc_entity_type.collection
+  description: 'List RPGC Entity type (bundles)'
+  parent: system.admin_structure
+  weight: 99

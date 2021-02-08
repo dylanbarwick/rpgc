@@ -1,0 +1,35 @@
+<?php
+
+/**
+ * @file
+ * Contains rpgc_coc3.module.
+ */
+
+use Drupal\Core\Routing\RouteMatchInterface;
+
+/**
+ * Implements hook_help().
+ */
+function rpgc_coc3_help($route_name, RouteMatchInterface $route_match) {
+  switch ($route_name) {
+    // Main module help for the rpgc_coc3 module.
+    case 'help.page.rpgc_coc3':
+      $output = '';
+      $output .= '<h3>' . t('About') . '</h3>';
+      $output .= '<p>' . t('Call of Cthulhu (3rd edition) character creation') . '</p>';
+      return $output;
+
+    default:
+  }
+}
+
+/**
+ * Implements hook_theme().
+ */
+function rpgc_coc3_theme() {
+  return [
+    'rpgc_coc3' => [
+      'render element' => 'children',
+    ],
+  ];
+}

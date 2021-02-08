@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the rpgc_dndbasic module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ *
+ * All entities of type `rpgc_dndbasic` will be deleted, followed closely by
+ * the entity type bundle itself. Scorched earth.
+ */
+function rpgc_dndbasic_uninstall() {
+  // Delete all RPGC entities of given content type.
+  $storage_handler = \Drupal::entityTypeManager()
+    ->getStorage('rpgc_entity');
+  $nodes = $storage_handler->loadByProperties(['type' => 'rpgc_dndbasic']);
+  $storage_handler->delete($nodes);
+
+  // Delete content type.
+  $content_type = \Drupal::entityTypeManager()
+    ->getStorage('rpgc_entity_type')
+    ->load('rpgc_dndbasic');
+  $content_type->delete();
+}

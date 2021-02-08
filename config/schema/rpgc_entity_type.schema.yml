@@ -1,0 +1,12 @@
+rpgc.rpgc_entity_type.*:
+  type: config_entity
+  label: 'RPGC Entity type config'
+  mapping:
+    id:
+      type: string
+      label: 'ID'
+    label:
+      type: label
+      label: 'Label'
+    uuid:
+      type: string

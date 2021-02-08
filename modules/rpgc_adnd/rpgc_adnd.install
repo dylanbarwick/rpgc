@@ -1,0 +1,26 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the rpgc_adnd module.
+ */
+
+/**
+ * Implements hook_uninstall().
+ *
+ * All entities of type `rpgc_adnd` will be deleted, followed closely by
+ * the entity type bundle itself. Scorched earth.
+ */
+function rpgc_adnd_uninstall() {
+  // Delete all RPGC entities of given content type.
+  $storage_handler = \Drupal::entityTypeManager()
+    ->getStorage('rpgc_entity');
+  $nodes = $storage_handler->loadByProperties(['type' => 'rpgc_adnd']);
+  $storage_handler->delete($nodes);
+
+  // Delete content type.
+  $content_type = \Drupal::entityTypeManager()
+    ->getStorage('rpgc_entity_type')
+    ->load('rpgc_adnd');
+  $content_type->delete();
+}

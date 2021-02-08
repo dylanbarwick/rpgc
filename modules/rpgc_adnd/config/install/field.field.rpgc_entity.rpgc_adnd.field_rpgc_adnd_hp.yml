@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.rpgc_entity.field_rpgc_adnd_hp
+    - rpgc.rpgc_entity_type.rpgc_adnd
+id: rpgc_entity.rpgc_adnd.field_rpgc_adnd_hp
+field_name: field_rpgc_adnd_hp
+entity_type: rpgc_entity
+bundle: rpgc_adnd
+label: 'Hit Points'
+description: 'The number of points of damage you can sustain before dying.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 1
+  max: null
+  prefix: ''
+  suffix: ''
+field_type: integer

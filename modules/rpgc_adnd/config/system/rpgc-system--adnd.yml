@@ -1,0 +1,90 @@
+system:
+  machine_name: adnd
+  human_name: Advanced Dungeons & Dragons
+
+defaultdicedetails:
+  dietype: 6
+  numthrown: 4
+  numcounted: 3
+  addition: 0
+
+statistics:
+  rpgc_adnd_stat_str:
+    statlabel: Strength
+    statabbreviation: STR
+  rpgc_adnd_stat_int:
+    statlabel: Intelligence
+    statabbreviation: INT
+  rpgc_adnd_stat_wis:
+    statlabel: Wisdom
+    statabbreviation: WIS
+  rpgc_adnd_stat_dex:
+    statlabel: Dexterity
+    statabbreviation: DEX
+  rpgc_adnd_stat_con:
+    statlabel: Constitution
+    statabbreviation: CON
+  rpgc_adnd_stat_cha:
+    statlabel: Charisma
+    statabbreviation: CHA
+
+classes:
+  fighter:
+    label: Fighter
+    primerequisites:
+      - rpgc_adnd_stat_str
+    minimumrequirements: { }
+    hitdice: 8
+  cleric:
+    label: Cleric
+    primerequisites:
+      - rpgc_adnd_stat_str
+    minimumrequirements: { }
+    hitdice: 6
+  dwarf:
+    label: Dwarf
+    primerequisites:
+      - rpgc_adnd_stat_str
+    minimumrequirements:
+      - rpgc_adnd_stat_con|9
+    hitdice: 8
+  elf:
+    label: Elf
+    primerequisites:
+      - rpgc_adnd_stat_str
+      - rpgc_adnd_stat_int
+    minimumrequirements:
+      - rpgc_adnd_stat_int|9
+    hitdice: 6
+  halfling:
+    label: Halfling
+    primerequisites:
+      - rpgc_adnd_stat_str
+      - rpgc_adnd_stat_dex
+    minimumrequirements:
+      - rpgc_adnd_stat_dex|9
+      - rpgc_adnd_stat_con|9
+    hitdice: 6
+  magicuser:
+    label: Magic-User
+    primerequisites:
+      - rpgc_adnd_stat_int
+    minimumrequirements: { }
+    hitdice: 4
+  thief:
+    label: Thief
+    primerequisites:
+      - rpgc_adnd_stat_dex
+    minimumrequirements: { }
+    hitdice: 4
+
+alignment:
+  - lawful-good
+  - lawful-neutral
+  - lawful-evil
+  - neutral-good
+  - neutral
+  - neutral-evil
+  - chaotic-good
+  - chaotic-neutral
+  - chaotic-evil

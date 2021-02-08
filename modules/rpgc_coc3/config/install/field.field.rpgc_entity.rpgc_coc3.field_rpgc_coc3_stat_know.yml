@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.rpgc_entity.field_rpgc_coc3_stat_know
+    - rpgc.rpgc_entity_type.rpgc_coc3
+id: rpgc_entity.rpgc_coc3.field_rpgc_coc3_stat_know
+field_name: field_rpgc_coc3_stat_know
+entity_type: rpgc_entity
+bundle: rpgc_coc3
+label: Know
+description: ''
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 30
+  max: 99
+  prefix: ''
+  suffix: ''
+field_type: integer

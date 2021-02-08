@@ -1,0 +1,7 @@
+name: 'RPGC - Call of Cthulhu 3rd Edition'
+type: module
+description: 'Call of Cthulhu (3rd edition) character creation'
+core: 8.x
+package: 'RPGC'
+dependencies:
+  - rpgc

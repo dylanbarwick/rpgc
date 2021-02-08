@@ -1,0 +1,22 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.rpgc_entity.field_rpgc_adnd_stat_int
+    - rpgc.rpgc_entity_type.rpgc_adnd
+id: rpgc_entity.rpgc_adnd.field_rpgc_adnd_stat_int
+field_name: field_rpgc_adnd_stat_int
+entity_type: rpgc_entity
+bundle: rpgc_adnd
+label: Intelligence
+description: 'The ability to learn and remember knowledge and the ability to solve problems.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings:
+  min: 3
+  max: 18
+  prefix: ''
+  suffix: ''
+field_type: integer

@@ -1,0 +1,5 @@
+name: 'RPGC'
+type: module
+description: 'Content entity for RPG characters'
+core: 8.x
+package: 'RPGC'

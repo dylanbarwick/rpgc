@@ -1,0 +1,173 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_hp
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_mp
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_san
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_stat_app
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_stat_con
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_stat_dex
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_stat_edu
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_stat_idea
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_stat_int
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_stat_know
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_stat_luck
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_stat_pow
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_stat_siz
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_stat_str
+    - rpgc.rpgc_entity_type.rpgc_coc3
+id: rpgc_entity.rpgc_coc3.default
+targetEntityType: rpgc_entity
+bundle: rpgc_coc3
+mode: default
+content:
+  class:
+    type: string_textfield
+    weight: 3
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_rpgc_coc3_hp:
+    weight: 17
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_rpgc_coc3_mp:
+    weight: 16
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_rpgc_coc3_san:
+    weight: 13
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_rpgc_coc3_stat_app:
+    weight: 9
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_rpgc_coc3_stat_con:
+    weight: 8
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_rpgc_coc3_stat_dex:
+    weight: 5
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_rpgc_coc3_stat_edu:
+    weight: 14
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_rpgc_coc3_stat_idea:
+    weight: 7
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_rpgc_coc3_stat_int:
+    weight: 6
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_rpgc_coc3_stat_know:
+    weight: 15
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_rpgc_coc3_stat_luck:
+    weight: 11
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_rpgc_coc3_stat_pow:
+    weight: 10
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_rpgc_coc3_stat_siz:
+    weight: 12
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_rpgc_coc3_stat_str:
+    weight: 4
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  history:
+    type: string_textarea
+    weight: 18
+    settings:
+      rows: 4
+      placeholder: ''
+    region: content
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  race:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  sex:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  user_id:
+    type: entity_reference_autocomplete
+    weight: 19
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+      match_limit: 10
+    region: content
+    third_party_settings: {  }
+hidden: {  }

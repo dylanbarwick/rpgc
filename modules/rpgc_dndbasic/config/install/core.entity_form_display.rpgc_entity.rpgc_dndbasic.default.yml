@@ -1,0 +1,132 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.rpgc_entity.rpgc_dndbasic.field_rpgc_dndbasic_align
+    - field.field.rpgc_entity.rpgc_dndbasic.field_rpgc_dndbasic_hp
+    - field.field.rpgc_entity.rpgc_dndbasic.field_rpgc_dndbasic_lvl
+    - field.field.rpgc_entity.rpgc_dndbasic.field_rpgc_dndbasic_stat_cha
+    - field.field.rpgc_entity.rpgc_dndbasic.field_rpgc_dndbasic_stat_con
+    - field.field.rpgc_entity.rpgc_dndbasic.field_rpgc_dndbasic_stat_dex
+    - field.field.rpgc_entity.rpgc_dndbasic.field_rpgc_dndbasic_stat_int
+    - field.field.rpgc_entity.rpgc_dndbasic.field_rpgc_dndbasic_stat_str
+    - field.field.rpgc_entity.rpgc_dndbasic.field_rpgc_dndbasic_stat_wis
+    - rpgc.rpgc_entity_type.rpgc_dndbasic
+id: rpgc_entity.rpgc_dndbasic.default
+targetEntityType: rpgc_entity
+bundle: rpgc_dndbasic
+mode: default
+content:
+  class:
+    type: string_textfield
+    weight: 3
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  field_rpgc_dndbasic_align:
+    weight: 6
+    settings: {  }
+    third_party_settings: {  }
+    type: options_select
+    region: content
+  field_rpgc_dndbasic_hp:
+    weight: 5
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_rpgc_dndbasic_lvl:
+    weight: 4
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_rpgc_dndbasic_stat_cha:
+    weight: 12
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_rpgc_dndbasic_stat_con:
+    weight: 11
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_rpgc_dndbasic_stat_dex:
+    weight: 10
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_rpgc_dndbasic_stat_int:
+    weight: 8
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_rpgc_dndbasic_stat_str:
+    weight: 7
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  field_rpgc_dndbasic_stat_wis:
+    weight: 9
+    settings:
+      placeholder: ''
+    third_party_settings: {  }
+    type: number
+    region: content
+  history:
+    type: string_textarea
+    weight: 13
+    settings:
+      rows: 4
+      placeholder: ''
+    region: content
+    third_party_settings: {  }
+  name:
+    type: string_textfield
+    weight: 0
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  race:
+    type: string_textfield
+    weight: 2
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  sex:
+    type: string_textfield
+    weight: 1
+    region: content
+    settings:
+      size: 60
+      placeholder: ''
+    third_party_settings: {  }
+  user_id:
+    type: entity_reference_autocomplete
+    weight: 14
+    settings:
+      match_operator: CONTAINS
+      size: 60
+      placeholder: ''
+      match_limit: 10
+    region: content
+    third_party_settings: {  }
+hidden: {  }

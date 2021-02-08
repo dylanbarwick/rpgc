@@ -1,0 +1,7 @@
+rpgc.rpgc_system_picker:
+  path: '/rpgc/selector'
+  defaults:
+    _controller: '\Drupal\rpgc\Controller\RpgcSystemPickerController::selector'
+    _title: 'RPG Character gaming system selection page'
+  requirements:
+    _permission: 'access the system-picker page'

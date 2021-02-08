@@ -1,0 +1,202 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_hp
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_mp
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_san
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_stat_app
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_stat_con
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_stat_dex
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_stat_edu
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_stat_idea
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_stat_int
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_stat_know
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_stat_luck
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_stat_pow
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_stat_siz
+    - field.field.rpgc_entity.rpgc_coc3.field_rpgc_coc3_stat_str
+    - rpgc.rpgc_entity_type.rpgc_coc3
+  module:
+    - user
+id: rpgc_entity.rpgc_coc3.default
+targetEntityType: rpgc_entity
+bundle: rpgc_coc3
+mode: default
+content:
+  class:
+    label: above
+    type: string
+    weight: -4
+    placeholder: 'Fighter/Cleric/Professor/Dilletante/Space Pirate...'
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  field_rpgc_coc3_hp:
+    weight: 18
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_rpgc_coc3_mp:
+    weight: 17
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_rpgc_coc3_san:
+    weight: 19
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_rpgc_coc3_stat_app:
+    weight: 12
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_rpgc_coc3_stat_con:
+    weight: 7
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_rpgc_coc3_stat_dex:
+    weight: 11
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_rpgc_coc3_stat_edu:
+    weight: 13
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_rpgc_coc3_stat_idea:
+    weight: 14
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_rpgc_coc3_stat_int:
+    weight: 9
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_rpgc_coc3_stat_know:
+    weight: 16
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_rpgc_coc3_stat_luck:
+    weight: 15
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_rpgc_coc3_stat_pow:
+    weight: 10
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_rpgc_coc3_stat_siz:
+    weight: 8
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_rpgc_coc3_stat_str:
+    weight: 6
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  history:
+    label: visible
+    type: basic_string
+    weight: 5
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+  name:
+    label: above
+    type: string
+    weight: -4
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  race:
+    label: above
+    type: string
+    weight: -4
+    placeholder: Human/Elf/Orc/Centaur...
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  sex:
+    label: above
+    type: string
+    weight: -4
+    placeholder: Male/Female
+    region: content
+    settings:
+      link_to_entity: false
+    third_party_settings: {  }
+  user_id:
+    label: hidden
+    type: author
+    weight: 0
+    region: content
+    settings: {  }
+    third_party_settings: {  }
+hidden: {  }

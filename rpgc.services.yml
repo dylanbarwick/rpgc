@@ -1,0 +1,7 @@
+services:
+  logger.channel.rpgc:
+    parent: logger.channel_base
+    arguments: ['rpgc']
+  rpgc.utility:
+    class: Drupal\rpgc\Services\RpgcUtilityService
+    arguments: ['@module_handler', '@serialization.yaml']

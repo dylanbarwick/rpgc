@@ -1,0 +1,5 @@
+langcode: en
+status: true
+dependencies: {  }
+id: rpgc_coc3
+label: 'Call of Cthulhu 3rd edition'
