@@ -59,9 +59,11 @@ function rpgc_dndbasic_form_alter(&$form, FormStateInterface $form_state, $form_
       $rolled_message .= '(' . $lowdie . ')]';
       $form['field_' . $key]['widget'][0]['value']['#default_value'] = $rollem['sum'];
       $form['field_' . $key]['widget'][0]['value']['#description'] .= $rolled_message;
+
       // Save for later when we do min reqs.
       $stats[$key] = $rollem['sum'];
     }
+    // dump($stats);
 
     // Alignment.
     $which_align = array_rand($systemconfig['alignment']);
@@ -87,40 +89,21 @@ function rpgc_dndbasic_form_alter(&$form, FormStateInterface $form_state, $form_
         }
       }
     }
+    // dump($classes);
 
+    // Isolate all stats that are 13 or above and assign weights to them.
     $primereqs = [];
     foreach ($stats as $key => $value) {
-      switch ($value) {
-        case 13:
-        case 14:
-        case 15:
-          $primereqs[$key] = [
-            'stat' => $value,
-            'weight' => 1,
-          ];
-          break;
-
-        case 16:
-        case 17:
-          $primereqs[$key] = [
-            'stat' => $value,
-            'weight' => 2,
-          ];
-          break;
-
-        case 18:
-          $primereqs[$key] = [
-            'stat' => $value,
-            'weight' => 4,
-          ];
-          break;
-
-        default:
-          break;
+      $modifier = stat_modifiers($value);
+      if ($modifier > 0) {
+        $primereqs[$key] = [
+          'stat' => $value,
+          'weight' => $modifier,
+        ];
       }
-
     }
     uasort($primereqs, 'cmp');
+    // dump($primereqs);
 
     // Step through the remaining classes and assign weights.
     foreach ($classes as $key => $value) {
@@ -134,19 +117,28 @@ function rpgc_dndbasic_form_alter(&$form, FormStateInterface $form_state, $form_
       }
     }
     uasort($classes, 'cmp');
+    // dump($classes);
 
     // Narrow down the contenders.
     $contenders = [];
     $weightiest = 0;
     foreach ($classes as $key => $value) {
-      if ($value['weight'] >= $weightiest) {
+      if ($value['weight'] >= ($weightiest - 1) && $value['weight'] > 0) {
         $contenders[$key] = $classes[$key];
         $weightiest = $value['weight'];
       }
     }
+    // dump($contenders);
     $chosen_class = array_rand($contenders);
+    // dump($chosen_class);
 
     $form['class']['widget'][0]['value']['#default_value'] = $classes[$chosen_class]['label'];
+    $desc = '<br/>Potential classes:<br/>';
+    foreach ($contenders as $key => $value) {
+      $desc .= $value['label'] . '<br/>';
+    }
+    $form['class']['widget'][0]['value']['#description'] .= $desc;
+    // dump($desc);
     $form['race']['widget'][0]['value']['#default_value'] = $classes[$chosen_class]['race'];
     $hitpoints = $rpgc_utility->rollDice($classes[$chosen_class]['hitdice'], 1, 1, stat_modifiers($stats['rpgc_dndbasic_stat_con']));
     if (!empty($classes[$chosen_class]['minimumhitpoints'])) {
