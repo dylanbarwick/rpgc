@@ -50,13 +50,19 @@ function rpgc_dndbasic_form_alter(&$form, FormStateInterface $form_state, $form_
     // Stats.
     $defaultdice = $systemconfig['defaultdicedetails'];
     foreach ($systemconfig['statistics'] as $key => $value) {
+      $lowdie = [];
       $rollem = $rpgc_utility->rollDice($defaultdice['dietype'], $defaultdice['numthrown'], $defaultdice['numcounted']);
-      $lowdie = array_pop($rollem['dicethrown']);
-      $rolled_message = '<br/>[rolled: ';
-      foreach ($rollem['dicethrown'] as $rkey => $rvalue) {
-        $rolled_message .= $rvalue . ', ';
+      $diff = $defaultdice['numthrown'] - $defaultdice['numcounted'];
+      for ($i = 0; $i < $diff; $i++) {
+        $lowdie[] = array_pop($rollem['dicethrown']);
       }
-      $rolled_message .= '(' . $lowdie . ')]';
+      rsort($lowdie);
+
+      $rolled_message = '<br/>[rolled: ';
+      $rolled_message .= implode(', ', $rollem['dicethrown']);
+      if (count($lowdie) > 0) {
+        $rolled_message .= ' (' . implode(', ', $lowdie) . ')]';
+      }
       $form['field_' . $key]['widget'][0]['value']['#default_value'] = $rollem['sum'];
       $form['field_' . $key]['widget'][0]['value']['#description'] .= $rolled_message;
 
@@ -125,17 +131,33 @@ function rpgc_dndbasic_form_alter(&$form, FormStateInterface $form_state, $form_
     foreach ($classes as $key => $value) {
       if ($value['weight'] >= ($weightiest - 1) && $value['weight'] > 0) {
         $contenders[$key] = $classes[$key];
+        for ($i = 0; $i < $value['weight']; $i++) {
+          $contender_keys[] = $key;
+        }
         $weightiest = $value['weight'];
       }
     }
     // dump($contenders);
-    $chosen_class = array_rand($contenders);
+    // dump($contender_keys);
+    if (count($contenders) === 0) {
+      $chosen_class = array_rand($classes);
+    }
+    else {
+      $chosen_key = array_rand($contender_keys);
+      $chosen_class = $contender_keys[$chosen_key];
+    }
+    // dump($contender_keys[$chosen_key]);
     // dump($chosen_class);
 
     $form['class']['widget'][0]['value']['#default_value'] = $classes[$chosen_class]['label'];
     $desc = '<br/>Potential classes:<br/>';
-    foreach ($contenders as $key => $value) {
-      $desc .= $value['label'] . '<br/>';
+    if (count($contenders) === 0) {
+      $desc .= 'this is a pretty weedy character without enough prime requisites';
+    }
+    else {
+      foreach ($contenders as $key => $value) {
+        $desc .= $value['label'] . ' (' . $value['weight'] . ')<br/>';
+      }
     }
     $form['class']['widget'][0]['value']['#description'] .= $desc;
     // dump($desc);
