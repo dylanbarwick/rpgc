@@ -5,6 +5,22 @@
  * Install, update and uninstall functions for the rpgc_dndbasic module.
  */
 
+use Drupal\taxonomy\Entity\Term;
+
+/**
+ * Implements hook_install().
+ */
+function rpgc_dndbasic_install() {
+  $term = Term::create([
+    'vid' => 'dndbasic_names',
+    'name' => 'Floom',
+    'field_dndbasic_first_last' => ['first'],
+    'field_dndbasic_culture' => ['human', 'dwarf'],
+    'field_dndbasic_male_female' => ['male'],
+  ]);
+  $term->save();
+}
+
 /**
  * Implements hook_uninstall().
  *

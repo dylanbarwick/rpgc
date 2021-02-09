@@ -43,33 +43,20 @@ function rpgc_dndbasic_theme() {
  */
 function rpgc_dndbasic_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   if ($form_id == 'rpgc_entity_rpgc_dndbasic_add_form') {
-    // dump($form);
-    $rpgc_utility = Drupal::service('rpgc.utility');
-    $systemconfig = $rpgc_utility->readMyYaml('rpgc_' . RPGC_DNDBASIC_GAME_SYSTEM);
+
+    $rpgc_create = Drupal::service('rpgc_dndbasic.creation');
+    $systemconfig = $rpgc_create->getSystemConfig();
 
     // Stats.
     $defaultdice = $systemconfig['defaultdicedetails'];
     foreach ($systemconfig['statistics'] as $key => $value) {
-      $lowdie = [];
-      $rollem = $rpgc_utility->rollDice($defaultdice['dietype'], $defaultdice['numthrown'], $defaultdice['numcounted']);
-      $diff = $defaultdice['numthrown'] - $defaultdice['numcounted'];
-      for ($i = 0; $i < $diff; $i++) {
-        $lowdie[] = array_pop($rollem['dicethrown']);
-      }
-      rsort($lowdie);
-
-      $rolled_message = '<br/>[rolled: ';
-      $rolled_message .= implode(', ', $rollem['dicethrown']);
-      if (count($lowdie) > 0) {
-        $rolled_message .= ' (' . implode(', ', $lowdie) . ')]';
-      }
-      $form['field_' . $key]['widget'][0]['value']['#default_value'] = $rollem['sum'];
-      $form['field_' . $key]['widget'][0]['value']['#description'] .= $rolled_message;
+      $rollo = $rpgc_create->rollStat($defaultdice);
+      $form['field_' . $key]['widget'][0]['value']['#default_value'] = $rollo['sum'];
+      $form['field_' . $key]['widget'][0]['value']['#description'] .= $rollo['message'];
 
       // Save for later when we do min reqs.
-      $stats[$key] = $rollem['sum'];
+      $stats[$key] = $rollo['sum'];
     }
-    // dump($stats);
 
     // Alignment.
     $which_align = array_rand($systemconfig['alignment']);
@@ -84,61 +71,22 @@ function rpgc_dndbasic_form_alter(&$form, FormStateInterface $form_state, $form_
     $classes = $systemconfig['classes'];
 
     // Next, we start disqualifying based on rolled stats and min reqs.
-    foreach ($classes as $key => $value) {
-      if (!empty($value['minimumrequirements'])) {
-        foreach ($value['minimumrequirements'] as $mrkey => $mrvalue) {
-          // Check if the rolled stats match or exceed this min req.
-          if ($stats[$mrkey] < $mrvalue) {
-            unset($classes[$key]);
-            break;
-          }
-        }
-      }
-    }
-    // dump($classes);
+    $rpgc_create->disqualifyClasses($classes, $stats);
 
     // Isolate all stats that are 13 or above and assign weights to them.
-    $primereqs = [];
-    foreach ($stats as $key => $value) {
-      $modifier = stat_modifiers($value);
-      if ($modifier > 0) {
-        $primereqs[$key] = [
-          'stat' => $value,
-          'weight' => $modifier,
-        ];
-      }
-    }
-    uasort($primereqs, 'cmp');
-    // dump($primereqs);
+    $primereqs = $rpgc_create->getPrimeReqs($stats);
 
     // Step through the remaining classes and assign weights.
-    foreach ($classes as $key => $value) {
-      $classes[$key]['weight'] = 0;
-      if (!empty($value['primerequisites'])) {
-        foreach ($value['primerequisites'] as $prkey => $prvalue) {
-          if (!empty($primereqs[$prvalue])) {
-            $classes[$key]['weight'] += $primereqs[$prvalue]['weight'];
-          }
-        }
-      }
-    }
-    uasort($classes, 'cmp');
-    // dump($classes);
+    $rpgc_create->assignWeightsToClasses($classes, $primereqs);
 
     // Narrow down the contenders.
-    $contenders = [];
-    $weightiest = 0;
-    foreach ($classes as $key => $value) {
-      if ($value['weight'] >= ($weightiest - 1) && $value['weight'] > 0) {
-        $contenders[$key] = $classes[$key];
-        for ($i = 0; $i < $value['weight']; $i++) {
-          $contender_keys[] = $key;
-        }
-        $weightiest = $value['weight'];
-      }
+    $contenders = $rpgc_create->narrowDownTheContenders($classes);
+    // If there are no contenders, ignore the contender_keys thing.
+    if (isset($contenders['contender_keys'])) {
+      $contender_keys = $contenders['contender_keys'];
+      unset($contenders['contender_keys']);
     }
-    // dump($contenders);
-    // dump($contender_keys);
+
     if (count($contenders) === 0) {
       $chosen_class = array_rand($classes);
     }
@@ -146,32 +94,17 @@ function rpgc_dndbasic_form_alter(&$form, FormStateInterface $form_state, $form_
       $chosen_key = array_rand($contender_keys);
       $chosen_class = $contender_keys[$chosen_key];
     }
-    // dump($contender_keys[$chosen_key]);
-    // dump($chosen_class);
 
     $form['class']['widget'][0]['value']['#default_value'] = $classes[$chosen_class]['label'];
-    $desc = '<br/>Potential classes:<br/>';
-    if (count($contenders) === 0) {
-      $desc .= 'this is a pretty weedy character without enough prime requisites';
-    }
-    else {
-      foreach ($contenders as $key => $value) {
-        $desc .= $value['label'] . ' (' . $value['weight'] . ')<br/>';
-      }
-    }
+
+    // Get description addendum.
+    $desc = $rpgc_create->getClassDescriptionAddendum($contenders);
+
     $form['class']['widget'][0]['value']['#description'] .= $desc;
-    // dump($desc);
+
     $form['race']['widget'][0]['value']['#default_value'] = $classes[$chosen_class]['race'];
-    $hitpoints = $rpgc_utility->rollDice($classes[$chosen_class]['hitdice'], 1, 1, stat_modifiers($stats['rpgc_dndbasic_stat_con']));
-    if (!empty($classes[$chosen_class]['minimumhitpoints'])) {
-      $minhp = $classes[$chosen_class]['minimumhitpoints'];
-    }
-    else {
-      $minhp = $defaultdice['minimumhitpoints'];
-    }
-    if ($hitpoints['sum'] < $minhp) {
-      $hitpoints['sum'] = $minhp;
-    }
+    $hitpoints = $rpgc_create->hitPoints($classes[$chosen_class], $stats['rpgc_dndbasic_stat_con'], $defaultdice);
+
     $form['field_rpgc_dndbasic_hp']['widget'][0]['value']['#default_value'] = $hitpoints['sum'];
   }
 }
@@ -189,41 +122,41 @@ function cmp($a, $b) {
 /**
  * Return modifiers based on stats.
  */
-function stat_modifiers($stat) {
-  switch ($stat) {
-    case 3:
-      $return = -3;
-      break;
-
-    case 4:
-    case 5:
-      $return = -2;
-      break;
-
-    case 6:
-    case 7:
-    case 8:
-      $return = -1;
-      break;
-
-    case 13:
-    case 14:
-    case 15:
-      $return = 1;
-      break;
-
-    case 16:
-    case 17:
-      $return = 2;
-      break;
-
-    case 18:
-      $return = 3;
-      break;
-
-    default:
-      $return = 0;
-      break;
-  }
-  return $return;
-}
+// function stat_modifiers($stat) {
+//   switch ($stat) {
+//     case 3:
+//       $return = -3;
+//       break;
+//
+//     case 4:
+//     case 5:
+//       $return = -2;
+//       break;
+//
+//     case 6:
+//     case 7:
+//     case 8:
+//       $return = -1;
+//       break;
+//
+//     case 13:
+//     case 14:
+//     case 15:
+//       $return = 1;
+//       break;
+//
+//     case 16:
+//     case 17:
+//       $return = 2;
+//       break;
+//
+//     case 18:
+//       $return = 3;
+//       break;
+//
+//     default:
+//       $return = 0;
+//       break;
+//   }
+//   return $return;
+// }

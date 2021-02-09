@@ -1,0 +1,20 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_dndbasic_first_last
+    - taxonomy.vocabulary.dndbasic_names
+  module:
+    - options
+id: taxonomy_term.dndbasic_names.field_dndbasic_first_last
+field_name: field_dndbasic_first_last
+entity_type: taxonomy_term
+bundle: dndbasic_names
+label: First/last
+description: ''
+required: true
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: list_string

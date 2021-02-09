@@ -1,0 +1,32 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+    - taxonomy
+id: taxonomy_term.field_dndbasic_culture
+field_name: field_dndbasic_culture
+entity_type: taxonomy_term
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: human
+      label: Human
+    -
+      value: elf
+      label: Elf
+    -
+      value: dwarf
+      label: Dwarf
+    -
+      value: halfling
+      label: Halfling
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 4
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

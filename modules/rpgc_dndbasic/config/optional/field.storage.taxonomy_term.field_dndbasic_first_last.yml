@@ -1,0 +1,26 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - options
+    - taxonomy
+id: taxonomy_term.field_dndbasic_first_last
+field_name: field_dndbasic_first_last
+entity_type: taxonomy_term
+type: list_string
+settings:
+  allowed_values:
+    -
+      value: first
+      label: First
+    -
+      value: last
+      label: Last
+  allowed_values_function: ''
+module: options
+locked: false
+cardinality: 2
+translatable: true
+indexes: {  }
+persist_with_no_fields: false
+custom_storage: false

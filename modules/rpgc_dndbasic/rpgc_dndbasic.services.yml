@@ -1,0 +1,7 @@
+services:
+  logger.channel.rpgc_dndbasic:
+    parent: logger.channel_base
+    arguments: ['rpgc_dndbasic']
+  rpgc_dndbasic.creation:
+    class: Drupal\rpgc_dndbasic\Services\RpgcDndbasicCreationService
+    arguments: ['@rpgc.utility']
