@@ -198,16 +198,6 @@ class RpgcDndbasicCreationService implements RpgcDndbasicCreationServiceInterfac
   }
 
   /**
-   * Compare function to sort stats by weight.
-   */
-  // protected function cmp($a, $b) {
-  //   if ($a['weight'] == $b['weight']) {
-  //     return 0;
-  //   }
-  //   return ($a['weight'] > $b['weight']) ? -1 : 1;
-  // }
-
-  /**
    * Return modifiers based on stats.
    */
   protected function statModifiers($stat) {

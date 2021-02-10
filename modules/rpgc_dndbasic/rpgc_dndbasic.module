@@ -60,7 +60,7 @@ function rpgc_dndbasic_form_alter(&$form, FormStateInterface $form_state, $form_
 
     // Alignment.
     $which_align = array_rand($systemconfig['alignment']);
-    $form['field_rpgc_dndbasic_align']['widget']['#default_value'] = $systemconfig['alignment'][$which_align];
+    $form['field_rpgc_dndbasic_align']['widget']['#default_value'] = $which_align;
 
     // Sex.
     $which_sex = array_rand($systemconfig['sex']);
@@ -118,45 +118,3 @@ function cmp($a, $b) {
   }
   return ($a['weight'] > $b['weight']) ? -1 : 1;
 }
-
-/**
- * Return modifiers based on stats.
- */
-// function stat_modifiers($stat) {
-//   switch ($stat) {
-//     case 3:
-//       $return = -3;
-//       break;
-//
-//     case 4:
-//     case 5:
-//       $return = -2;
-//       break;
-//
-//     case 6:
-//     case 7:
-//     case 8:
-//       $return = -1;
-//       break;
-//
-//     case 13:
-//     case 14:
-//     case 15:
-//       $return = 1;
-//       break;
-//
-//     case 16:
-//     case 17:
-//       $return = 2;
-//       break;
-//
-//     case 18:
-//       $return = 3;
-//       break;
-//
-//     default:
-//       $return = 0;
-//       break;
-//   }
-//   return $return;
-// }

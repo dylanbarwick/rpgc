@@ -1,0 +1,7 @@
+rpgc_dndbasic.generator:
+  path: '/rpgc_dndbasic/generator'
+  defaults:
+    _form: '\Drupal\rpgc_dndbasic\Form\RpgcDndbasicGenerator'
+    _title: 'D&D Basic NPC generator'
+  requirements:
+    _permission: 'generate NPCs'

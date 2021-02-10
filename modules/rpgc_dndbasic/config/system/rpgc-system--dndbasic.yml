@@ -95,10 +95,10 @@ classes:
     race: Human
 
 alignment:
-  - law
-  - neutral
-  - chaos
+  law: Lawful
+  neutral: Neutral
+  chaos: Chaotic
 
 sex:
-  - male
-  - female
+  male: Male
+  female: Female
