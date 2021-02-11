@@ -45,10 +45,15 @@ class RpgcDndbasicGenerator extends FormBase {
     $request = $this->getRequest()->query->all();
     $rpgc_create = $this->rpgcDndbasicCreation;
     $systemconfig = $rpgc_create->getSystemConfig();
+    $open_details = TRUE;
+    if (count($request)) {
+      $open_details = FALSE;
+    }
     $form['classes'] = [
-      '#type' => 'fieldset',
+      '#type' => 'details',
       '#title' => $this->t('Character classes'),
-      '#description' => $this->t('If none of the above is selected the system will choose from all of them.'),
+      '#description' => $this->t('If none of these is selected the system will choose from all of them.'),
+      '#open' => $open_details,
     ];
     foreach ($systemconfig['classes'] as $key => $value) {
       $default_value = 0;
@@ -64,8 +69,9 @@ class RpgcDndbasicGenerator extends FormBase {
     }
 
     $form['defaultdicedetails'] = [
-      '#type' => 'fieldset',
+      '#type' => 'details',
       '#title' => $this->t('Dice defaults'),
+      '#open' => $open_details,
     ];
 
     $dice_text = [
@@ -108,20 +114,27 @@ class RpgcDndbasicGenerator extends FormBase {
     }
 
     $form['misc'] = [
-      '#type' => 'fieldset',
+      '#type' => 'details',
       '#title' => $this->t('Miscelaneous'),
+      '#open' => $open_details,
     ];
 
     $form['misc']['align'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Alignment'),
-      '#description' => $this->t('If none of the above is selected the system will choose from all of them.'),
+      '#description' => $this->t('If none of these is selected the system will choose from all of them.'),
     ];
 
     $form['misc']['sex'] = [
       '#type' => 'fieldset',
       '#title' => $this->t('Sex'),
-      '#description' => $this->t('If neither of the above is selected the system will choose from both of them.'),
+      '#description' => $this->t('If neither of these is selected the system will choose from both of them.'),
+    ];
+
+    $form['misc']['level'] = [
+      '#type' => 'fieldset',
+      '#title' => $this->t('Level'),
+      '#description' => $this->t('The maximum level should not be lower than the minimum level. Obvs.'),
     ];
 
     foreach ($systemconfig['alignment'] as $key => $value) {
@@ -150,10 +163,88 @@ class RpgcDndbasicGenerator extends FormBase {
       ];
     }
 
+    $level_options = [];
+    for ($i = 1; $i <= 12; $i++) {
+      $level_options[$i] = $i;
+    }
+
+    $default_value = 1;
+    if (!empty($request['minlevel'])) {
+      $default_value = $request['minlevel'];
+    }
+    $form['misc']['level']['minlevel'] = [
+      '#type' => 'select',
+      '#title' => $this->t('The minimum level for the NPCs'),
+      '#options' => $level_options,
+      '#default_value' => $default_value,
+    ];
+
+    $default_value = 1;
+    if (!empty($request['maxlevel'])) {
+      $default_value = $request['maxlevel'];
+    }
+    $form['misc']['level']['maxlevel'] = [
+      '#type' => 'select',
+      '#title' => $this->t('The maximum level for the NPCs'),
+      '#options' => $level_options,
+      '#default_value' => $default_value,
+    ];
+
+    $default_num_npcs = 1;
+    if (!empty($request['num_npcs'])) {
+      $default_num_npcs = $request['num_npcs'];
+    }
+    $form['num_npcs'] = [
+      '#type' => 'number',
+      '#title' => $this->t('Number of NPCs'),
+      '#default_value' => $default_num_npcs,
+      '#description' => $this->t('Specify the number of NPCs to generate.'),
+      '#weight' => '0',
+      '#min' => 1,
+      '#max' => 144,
+    ];
+
     $form['submit'] = [
       '#type' => 'submit',
       '#value' => $this->t('Submit'),
     ];
+
+    if (count($request)) {
+      // Request NPC generator function x times.
+      for ($i = 0; $i < $default_num_npcs; $i++) {
+        if ($npc = $rpgc_create->generatePc($request)) {
+          $rows[] = $npc;
+        }
+      }
+
+      // Apologise for not returning as many NPCs as requested.
+      if (count($rows) < $default_num_npcs) {
+        $caption = $this->t('You requested :num_pcs_req but I can only offer :num_pcs_deliv . Sadly, not everyone made the grade and so the number of peasants, groundlings and assorted rabble in the world has increased.', [':num_pcs_req' => $default_num_npcs, ':num_pcs_deliv' => count($rows)]);
+      }
+      else {
+        $caption = $this->t('Here are the NPCs you requested.');
+      }
+
+      $form['generated'] = [
+        '#theme' => 'table',
+        '#header' => [
+          'Name',
+          'Class',
+          'Sex',
+          'Level',
+          'HP',
+          'Align',
+          'STR',
+          'INT',
+          'WIS',
+          'DEX',
+          'CON',
+          'CHA',
+        ],
+        '#caption' => $caption,
+        '#rows' => $rows,
+      ];
+    }
 
     return $form;
   }
@@ -165,6 +256,11 @@ class RpgcDndbasicGenerator extends FormBase {
     foreach ($form_state->getValues() as $key => $value) {
       // @TODO: Validate fields.
     }
+
+    if ($form_state->getValue('minlevel') > $form_state->getValue('maxlevel')) {
+      $form_state->setErrorByName('minlevel', $this->t('The minimum level is too high.'));
+      $form_state->setErrorByName('maxlevel', $this->t('The maximum level is too low.'));
+    }
     parent::validateForm($form, $form_state);
   }
 
@@ -172,9 +268,8 @@ class RpgcDndbasicGenerator extends FormBase {
    * {@inheritdoc}
    */
   public function submitForm(array &$form, FormStateInterface $form_state) {
-    // Display result.
-    foreach ($form_state->getValues() as $key => $value) {
-      // \Drupal::messenger()->addMessage($key . ': ' . ($key === 'text_format' ? $value['value'] : $value));
+    // Return options as GET variables.
+    foreach ($form_state->cleanValues()->getValues() as $key => $value) {
       $returned[$key] = $value;
     }
     $form_state->setRedirect('rpgc_dndbasic.generator', $returned);

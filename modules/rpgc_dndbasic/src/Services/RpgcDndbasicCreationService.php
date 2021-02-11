@@ -198,6 +198,144 @@ class RpgcDndbasicCreationService implements RpgcDndbasicCreationServiceInterfac
   }
 
   /**
+   * Generate an NPC.
+   *
+   * @param array $params
+   *   The parameters set by the generator config form.
+   *
+   * @return array
+   *   An array formatted to suit a table-shaped render array.
+   */
+  public function generatePc(array $params) {
+
+    $rows = [];
+    $systemconfig = $this->getSystemConfig();
+    $defaultdice = [
+      'dietype' => $params['dietype'],
+      'numthrown' => $params['numthrown'],
+      'numcounted' => $params['numcounted'],
+      'addition' => $params['addition'],
+      'minimumhitpoints' => $params['minimumhitpoints'],
+    ];
+
+    // Class options.
+    $class_options = [
+      'fighter' => $params['fighter'],
+      'cleric' => $params['cleric'],
+      'dwarf' => $params['dwarf'],
+      'elf' => $params['elf'],
+      'halfling' => $params['halfling'],
+      'magicuser' => $params['magicuser'],
+      'thief' => $params['thief'],
+    ];
+
+    // If one or more of the classes has been selected.
+    if (in_array('1', $class_options)) {
+      // Step through class_options and unset anything not selected.
+      foreach ($class_options as $key => $value) {
+        if ($value === '0') {
+          unset($systemconfig['classes'][$key]);
+        }
+      }
+    }
+    // dump($systemconfig['classes']);
+    // dump($class_options);
+    // dump($systemconfig['classes']);
+
+    // Sex options.
+    $sex = [];
+    if (!$params['male'] && !$params['female']) {
+      $sex['male'] = $params['male'];
+      $sex['female'] = $params['female'];
+    }
+    if ($params['male']) {
+      $sex['male'] = $params['male'];
+    }
+    if ($params['female']) {
+      $sex['female'] = $params['female'];
+    }
+
+    // Alignment options.
+    $alignment = [];
+    if (!$params['law'] && !$params['neutral'] && !$params['chaos']) {
+      $alignment['law'] = $params['law'];
+      $alignment['neutral'] = $params['neutral'];
+      $alignment['chaos'] = $params['chaos'];
+    }
+    if ($params['law']) {
+      $alignment['law'] = $params['law'];
+    }
+    if ($params['neutral']) {
+      $alignment['neutral'] = $params['neutral'];
+    }
+    if ($params['chaos']) {
+      $alignment['chaos'] = $params['chaos'];
+    }
+
+    // Level options.
+    $levels = [];
+    for ($i = $params['minlevel']; $i <= $params['maxlevel']; $i++) {
+      $levels[] = $i;
+    }
+
+    $row = [];
+    // @TODO write a name generator.
+    $row[] = 'John Smith';
+
+    foreach ($systemconfig['statistics'] as $key => $value) {
+      $rollo = $this->rollStat($defaultdice);
+      $stats[$key] = $rollo['sum'];
+    }
+
+    // Work out class.
+    // dump($stats);
+    // dump($systemconfig['classes']);
+    $classes = $systemconfig['classes'];
+    $this->disqualifyClasses($classes, $stats);
+    if (!count($classes)) {
+      return FALSE;
+    }
+    $primereqs = $this->getPrimeReqs($stats);
+    $this->assignWeightsToClasses($classes, $primereqs);
+    $contenders = $this->narrowDownTheContenders($classes);
+
+    if (isset($contenders['contender_keys'])) {
+      $contender_keys = $contenders['contender_keys'];
+      unset($contenders['contender_keys']);
+    }
+    if (count($contenders) === 0) {
+      $chosen_class = array_rand($classes);
+    }
+    else {
+      $chosen_key = array_rand($contender_keys);
+      $chosen_class = $contender_keys[$chosen_key];
+    }
+
+    $row[] = $classes[$chosen_class]['label'];
+
+    $row[] = array_rand($sex);
+
+    $level = $levels[array_rand($levels)];
+    $row[] = $level;
+
+    $hp = 0;
+    for ($i = 1; $i <= $level; $i++) {
+      $hitpoints = $this->hitPoints($classes[$chosen_class], $stats['rpgc_dndbasic_stat_con'], $defaultdice);
+      $hp += $hitpoints['sum'];
+    }
+
+    $row[] = $hp;
+
+    $row[] = array_rand($alignment);
+
+    foreach ($stats as $key => $value) {
+      $row[] = $value;
+    }
+
+    return $row;
+  }
+
+  /**
    * Return modifiers based on stats.
    */
   protected function statModifiers($stat) {
