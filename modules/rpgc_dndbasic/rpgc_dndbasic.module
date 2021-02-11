@@ -47,65 +47,32 @@ function rpgc_dndbasic_form_alter(&$form, FormStateInterface $form_state, $form_
     $rpgc_create = Drupal::service('rpgc_dndbasic.creation');
     $systemconfig = $rpgc_create->getSystemConfig();
 
+    $pc = $rpgc_create->generatePc();
+
     // Stats.
     $defaultdice = $systemconfig['defaultdicedetails'];
     foreach ($systemconfig['statistics'] as $key => $value) {
-      $rollo = $rpgc_create->rollStat($defaultdice);
-      $form['field_' . $key]['widget'][0]['value']['#default_value'] = $rollo['sum'];
-      $form['field_' . $key]['widget'][0]['value']['#description'] .= $rollo['message'];
-
-      // Save for later when we do min reqs.
-      $stats[$key] = $rollo['sum'];
+      $form['field_' . $key]['widget'][0]['value']['#default_value'] = $pc['details']['full_stat'][$key]['sum'];
+      $form['field_' . $key]['widget'][0]['value']['#description'] .= $pc['details']['full_stat'][$key]['message'];
     }
 
     // Alignment.
-    $which_align = array_rand($systemconfig['alignment']);
-    $form['field_rpgc_dndbasic_align']['widget']['#default_value'] = $which_align;
+    $form['field_rpgc_dndbasic_align']['widget']['#default_value'] = $pc['alignment'];
 
     // Sex.
-    $which_sex = array_rand($systemconfig['sex']);
-    $form['sex']['widget'][0]['value']['#default_value'] = $systemconfig['sex'][$which_sex];
+    $form['sex']['widget'][0]['value']['#default_value'] = $pc['sex'];
 
     // Class.
-    // Get a full list of classes.
-    $classes = $systemconfig['classes'];
+    $form['class']['widget'][0]['value']['#default_value'] = $pc['class'];
 
-    // Next, we start disqualifying based on rolled stats and min reqs.
-    $rpgc_create->disqualifyClasses($classes, $stats);
+    // Class description.
+    $form['class']['widget'][0]['value']['#description'] .= $pc['details']['classDescAdd'];
 
-    // Isolate all stats that are 13 or above and assign weights to them.
-    $primereqs = $rpgc_create->getPrimeReqs($stats);
+    // Race.
+    $form['race']['widget'][0]['value']['#default_value'] = $pc['details']['class']['race'];
 
-    // Step through the remaining classes and assign weights.
-    $rpgc_create->assignWeightsToClasses($classes, $primereqs);
-
-    // Narrow down the contenders.
-    $contenders = $rpgc_create->narrowDownTheContenders($classes);
-    // If there are no contenders, ignore the contender_keys thing.
-    if (isset($contenders['contender_keys'])) {
-      $contender_keys = $contenders['contender_keys'];
-      unset($contenders['contender_keys']);
-    }
-
-    if (count($contenders) === 0) {
-      $chosen_class = array_rand($classes);
-    }
-    else {
-      $chosen_key = array_rand($contender_keys);
-      $chosen_class = $contender_keys[$chosen_key];
-    }
-
-    $form['class']['widget'][0]['value']['#default_value'] = $classes[$chosen_class]['label'];
-
-    // Get description addendum.
-    $desc = $rpgc_create->getClassDescriptionAddendum($contenders);
-
-    $form['class']['widget'][0]['value']['#description'] .= $desc;
-
-    $form['race']['widget'][0]['value']['#default_value'] = $classes[$chosen_class]['race'];
-    $hitpoints = $rpgc_create->hitPoints($classes[$chosen_class], $stats['rpgc_dndbasic_stat_con'], $defaultdice);
-
-    $form['field_rpgc_dndbasic_hp']['widget'][0]['value']['#default_value'] = $hitpoints['sum'];
+    // Hit points.
+    $form['field_rpgc_dndbasic_hp']['widget'][0]['value']['#default_value'] = $pc['hitpoints'];
   }
 }
 

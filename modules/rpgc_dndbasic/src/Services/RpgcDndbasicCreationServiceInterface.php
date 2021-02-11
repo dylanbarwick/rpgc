@@ -90,8 +90,14 @@ interface RpgcDndbasicCreationServiceInterface {
   public function hitPoints(array $chosen_class, int $con, array $defaultdice);
 
   /**
-   * Return modifiers based on stats.
+   * Generate an NPC.
+   *
+   * @param array $params
+   *   The parameters set by the generator config form.
+   *
+   * @return array
+   *   An array formatted to suit a table-shaped render array.
    */
-  // protected function statModifiers($stat);
+  public function generatePc(array $params);
 
 }

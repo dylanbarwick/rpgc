@@ -206,90 +206,95 @@ class RpgcDndbasicCreationService implements RpgcDndbasicCreationServiceInterfac
    * @return array
    *   An array formatted to suit a table-shaped render array.
    */
-  public function generatePc(array $params) {
+  public function generatePc(array $params = NULL) {
 
     $rows = [];
     $systemconfig = $this->getSystemConfig();
-    $defaultdice = [
-      'dietype' => $params['dietype'],
-      'numthrown' => $params['numthrown'],
-      'numcounted' => $params['numcounted'],
-      'addition' => $params['addition'],
-      'minimumhitpoints' => $params['minimumhitpoints'],
-    ];
 
-    // Class options.
-    $class_options = [
-      'fighter' => $params['fighter'],
-      'cleric' => $params['cleric'],
-      'dwarf' => $params['dwarf'],
-      'elf' => $params['elf'],
-      'halfling' => $params['halfling'],
-      'magicuser' => $params['magicuser'],
-      'thief' => $params['thief'],
-    ];
+    if ($params) {
+      $defaultdice = [
+        'dietype' => $params['dietype'],
+        'numthrown' => $params['numthrown'],
+        'numcounted' => $params['numcounted'],
+        'addition' => $params['addition'],
+        'minimumhitpoints' => $params['minimumhitpoints'],
+      ];
 
-    // If one or more of the classes has been selected.
-    if (in_array('1', $class_options)) {
-      // Step through class_options and unset anything not selected.
-      foreach ($class_options as $key => $value) {
-        if ($value === '0') {
-          unset($systemconfig['classes'][$key]);
+      // Class options.
+      $class_options = [
+        'fighter' => $params['fighter'],
+        'cleric' => $params['cleric'],
+        'dwarf' => $params['dwarf'],
+        'elf' => $params['elf'],
+        'halfling' => $params['halfling'],
+        'magicuser' => $params['magicuser'],
+        'thief' => $params['thief'],
+      ];
+
+      // If one or more of the classes has been selected.
+      if (in_array('1', $class_options)) {
+        // Step through class_options and unset anything not selected.
+        foreach ($class_options as $key => $value) {
+          if ($value === '0') {
+            unset($systemconfig['classes'][$key]);
+          }
         }
       }
-    }
-    // dump($systemconfig['classes']);
-    // dump($class_options);
-    // dump($systemconfig['classes']);
 
-    // Sex options.
-    $sex = [];
-    if (!$params['male'] && !$params['female']) {
-      $sex['male'] = $params['male'];
-      $sex['female'] = $params['female'];
-    }
-    if ($params['male']) {
-      $sex['male'] = $params['male'];
-    }
-    if ($params['female']) {
-      $sex['female'] = $params['female'];
-    }
+      // Sex options.
+      $sex = [];
+      if (!$params['male'] && !$params['female']) {
+        $sex['male'] = $params['male'];
+        $sex['female'] = $params['female'];
+      }
+      if ($params['male']) {
+        $sex['male'] = $params['male'];
+      }
+      if ($params['female']) {
+        $sex['female'] = $params['female'];
+      }
 
-    // Alignment options.
-    $alignment = [];
-    if (!$params['law'] && !$params['neutral'] && !$params['chaos']) {
-      $alignment['law'] = $params['law'];
-      $alignment['neutral'] = $params['neutral'];
-      $alignment['chaos'] = $params['chaos'];
-    }
-    if ($params['law']) {
-      $alignment['law'] = $params['law'];
-    }
-    if ($params['neutral']) {
-      $alignment['neutral'] = $params['neutral'];
-    }
-    if ($params['chaos']) {
-      $alignment['chaos'] = $params['chaos'];
-    }
+      // Alignment options.
+      $alignment = [];
+      if (!$params['law'] && !$params['neutral'] && !$params['chaos']) {
+        $alignment['law'] = $params['law'];
+        $alignment['neutral'] = $params['neutral'];
+        $alignment['chaos'] = $params['chaos'];
+      }
+      if ($params['law']) {
+        $alignment['law'] = $params['law'];
+      }
+      if ($params['neutral']) {
+        $alignment['neutral'] = $params['neutral'];
+      }
+      if ($params['chaos']) {
+        $alignment['chaos'] = $params['chaos'];
+      }
 
-    // Level options.
-    $levels = [];
-    for ($i = $params['minlevel']; $i <= $params['maxlevel']; $i++) {
-      $levels[] = $i;
+      // Level options.
+      $levels = [];
+      for ($i = $params['minlevel']; $i <= $params['maxlevel']; $i++) {
+        $levels[] = $i;
+      }
+    }
+    else {
+      $defaultdice = $systemconfig['defaultdicedetails'];
+      $sex = $systemconfig['sex'];
+      $alignment = $systemconfig['alignment'];
+      $levels = [];
     }
 
     $row = [];
     // @TODO write a name generator.
-    $row[] = 'John Smith';
+    $row['name'] = 'John Smith';
 
     foreach ($systemconfig['statistics'] as $key => $value) {
       $rollo = $this->rollStat($defaultdice);
       $stats[$key] = $rollo['sum'];
+      $full_rollo[$key] = $rollo;
     }
 
     // Work out class.
-    // dump($stats);
-    // dump($systemconfig['classes']);
     $classes = $systemconfig['classes'];
     $this->disqualifyClasses($classes, $stats);
     if (!count($classes)) {
@@ -311,12 +316,22 @@ class RpgcDndbasicCreationService implements RpgcDndbasicCreationServiceInterfac
       $chosen_class = $contender_keys[$chosen_key];
     }
 
-    $row[] = $classes[$chosen_class]['label'];
+    $row['class'] = $classes[$chosen_class]['label'];
+    $row['details']['class'] = $classes[$chosen_class];
 
-    $row[] = array_rand($sex);
+    $desc = $this->getClassDescriptionAddendum($contenders);
+    $row['details']['classDescAdd'] = $desc;
 
-    $level = $levels[array_rand($levels)];
-    $row[] = $level;
+    $row['sex'] = array_rand($sex);
+
+    // If the $levels array has been populated, ie this is from the npc form.
+    if (count($levels)) {
+      $level = $levels[array_rand($levels)];
+    }
+    else {
+      $level = 1;
+    }
+    $row['level'] = $level;
 
     $hp = 0;
     for ($i = 1; $i <= $level; $i++) {
@@ -324,12 +339,13 @@ class RpgcDndbasicCreationService implements RpgcDndbasicCreationServiceInterfac
       $hp += $hitpoints['sum'];
     }
 
-    $row[] = $hp;
+    $row['hitpoints'] = $hp;
 
-    $row[] = array_rand($alignment);
+    $row['alignment'] = array_rand($alignment);
 
     foreach ($stats as $key => $value) {
-      $row[] = $value;
+      $row[$key] = $value;
+      $row['details']['full_stat'][$key] = $full_rollo[$key];
     }
 
     return $row;

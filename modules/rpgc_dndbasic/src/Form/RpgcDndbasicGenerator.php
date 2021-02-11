@@ -38,10 +38,6 @@ class RpgcDndbasicGenerator extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
-    // dump($this->getRequest()->request->all());
-    // exit;
-    // dump($this->rpgcDndbasicCreation->getSystemConfig());
-    // dump($form_state->getValues());
     $request = $this->getRequest()->query->all();
     $rpgc_create = $this->rpgcDndbasicCreation;
     $systemconfig = $rpgc_create->getSystemConfig();
@@ -213,6 +209,8 @@ class RpgcDndbasicGenerator extends FormBase {
       // Request NPC generator function x times.
       for ($i = 0; $i < $default_num_npcs; $i++) {
         if ($npc = $rpgc_create->generatePc($request)) {
+          $full_stat = $npc['details']['full_stat'];
+          unset($npc['details']);
           $rows[] = $npc;
         }
       }
