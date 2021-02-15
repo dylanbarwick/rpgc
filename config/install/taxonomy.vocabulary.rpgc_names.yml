@@ -1,0 +1,7 @@
+langcode: en
+status: true
+dependencies: {  }
+name: 'RPGC Names'
+vid: rpgc_names
+description: 'One monolithic repository for names for all installed systems.'
+weight: 0

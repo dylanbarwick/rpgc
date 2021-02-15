@@ -4,28 +4,22 @@ dependencies:
   module:
     - options
     - taxonomy
-id: taxonomy_term.field_dndbasic_culture
-field_name: field_dndbasic_culture
+id: taxonomy_term.field_rpgcn_firstlast
+field_name: field_rpgcn_firstlast
 entity_type: taxonomy_term
 type: list_string
 settings:
   allowed_values:
     -
-      value: human
-      label: Human
+      value: first
+      label: First
     -
-      value: elf
-      label: Elf
-    -
-      value: dwarf
-      label: Dwarf
-    -
-      value: halfling
-      label: Halfling
+      value: last
+      label: Last
   allowed_values_function: ''
 module: options
 locked: false
-cardinality: 4
+cardinality: 2
 translatable: true
 indexes: {  }
 persist_with_no_fields: false

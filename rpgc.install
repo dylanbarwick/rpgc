@@ -1,0 +1,47 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the rpgc module.
+ */
+
+use Drupal\taxonomy\Entity\Term;
+use Drupal\taxonomy\Entity\Vocabulary;
+
+/**
+ * Implements hook_install().
+ */
+function rpgc_install() {
+  // $term = Term::create([
+  //   'vid' => 'dndbasic_names',
+  //   'name' => 'Floom',
+  //   'field_dndbasic_first_last' => ['first'],
+  //   'field_dndbasic_culture' => ['human', 'dwarf'],
+  //   'field_dndbasic_male_female' => ['male'],
+  // ]);
+  // $term->save();
+}
+
+/**
+ * Implements hook_uninstall().
+ *
+ * All entities of type `rpgc` will be deleted, followed closely by
+ * the entity type bundle itself. Scorched earth.
+ */
+function rpgc_uninstall() {
+  $entity_type_manager = \Drupal::entityTypeManager();
+
+  // Delete taxonomy terms in `dndbasic_names`.
+  $tids = \Drupal::entityQuery('taxonomy_term')
+    ->condition('vid', 'rpgc_names')
+    ->execute();
+
+  $controller = $entity_type_manager->getStorage('taxonomy_term');
+  $entities = $controller->loadMultiple($tids);
+  $controller->delete($entities);
+
+  $vocab = Vocabulary::load('rpgc_names');
+  if (!is_null($vocab)) {
+    $vocab->delete();
+  }
+}

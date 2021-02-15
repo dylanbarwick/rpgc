@@ -1,0 +1,18 @@
+langcode: en
+status: true
+dependencies:
+  config:
+    - field.storage.taxonomy_term.field_rpgcn_culture
+    - taxonomy.vocabulary.rpgc_names
+id: taxonomy_term.rpgc_names.field_rpgcn_culture
+field_name: field_rpgcn_culture
+entity_type: taxonomy_term
+bundle: rpgc_names
+label: Culture
+description: 'Noldor, Silvan etc for elves, English, French, Chinese, African etc for humans.'
+required: false
+translatable: false
+default_value: {  }
+default_value_callback: ''
+settings: {  }
+field_type: string
