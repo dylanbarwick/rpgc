@@ -8,9 +8,6 @@
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Form\FormStateInterface;
 
-// Define the code for this game system as a constant.
-define('RPGC_DNDBASIC_GAME_SYSTEM', 'dndbasic');
-
 /**
  * Implements hook_help().
  */

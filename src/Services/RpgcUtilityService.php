@@ -56,7 +56,7 @@ class RpgcUtilityService implements RpgcUtilityServiceInterface {
             // Split the file name by `.` and check the extension.
             $filename = explode('.', $entry);
             if ($filename[1] == 'yml') {
-              // $systemname = explode('--', $filename[0]);
+              $systemname = explode('--', $filename[0]);
               if ($this_system = $this->getSystem($whichModule)) {
                 break;
               }
@@ -68,7 +68,7 @@ class RpgcUtilityService implements RpgcUtilityServiceInterface {
       }
     }
     else {
-      return ['error' => 'There is no system info file called `rpgc-system--' . RPGC_DNDBASIC_GAME_SYSTEM . '.yml` in this module.'];
+      return ['error' => 'There is no system info file called `rpgc-system--' . $systemname[1] . '.yml` in this module.'];
     }
   }
 
@@ -138,9 +138,10 @@ class RpgcUtilityService implements RpgcUtilityServiceInterface {
    */
   public function getSystem($which_module = NULL) {
     $return = FALSE;
+    $module_code = explode('_', $which_module);
     // Get the module path.
     $path = $this->getPaths($which_module);
-    $filename = $path['system_location'] . '/rpgc-system--' . RPGC_DNDBASIC_GAME_SYSTEM . '.yml';
+    $filename = $path['system_location'] . '/rpgc-system--' . $module_code[1] . '.yml';
 
     // If the file exists.
     if (file_exists($filename)) {
@@ -148,6 +149,53 @@ class RpgcUtilityService implements RpgcUtilityServiceInterface {
     }
 
     return $return;
+  }
+
+  /**
+   * Helper service to import name taxonomy terms from a yaml file.
+   */
+  public function importNames($whichModule = NULL) {
+
+    $module_path = $this->getPaths($which_module);
+    $module_code = explode('_', $which_module);
+    if (count($module_code) > 1) {
+      $module_code = $module_code[1];
+    }
+    $termfile = $module_path['system_location'] . '/rpgc-names--' . $module_code . '.yml';
+
+    // If the file exists.
+    if (file_exists($termfile)) {
+      $terms = $this->serializationYaml->decode(file_get_contents($termfile));
+    }
+
+    $terms_array = [];
+    $originator = $terms['originator'];
+    foreach ($terms['genre'] as $gkey => $gvalue) {
+      $genre = $gkey;
+      foreach ($gvalue['names']['races'] as $rkey => $rvalue) {
+        foreach ($rvalue as $nkey => $nvalue) {
+          $thisterm = [
+            'vid' => 'rpgc_names',
+            'name' => $nvalue['name'],
+            'field_rpgcn_genre' => [$gkey],
+            'field_rpgcn_originator' => [$originator],
+            'field_rpgcn_race' => [$rkey],
+          ];
+          // Make the values safe.
+          if (!empty($nvalue['field_rpgcn_culture'])) {
+            $thisterm['field_rpgcn_culture'] = $nvalue['field_rpgcn_culture'];
+          }
+          if (!empty($nvalue['field_rpgcn_firstlast'])) {
+            $thisterm['field_rpgcn_firstlast'] = $nvalue['field_rpgcn_firstlast'];
+          }
+          if (!empty($nvalue['field_rpgcn_malefemale'])) {
+            $thisterm['field_rpgcn_malefemale'] = $nvalue['field_rpgcn_malefemale'];
+          }
+          $term_to_go = Term::create($thisterm);
+          $term_to_go->save();
+        }
+      }
+    }
   }
 
 }

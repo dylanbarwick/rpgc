@@ -5,24 +5,12 @@
  * Install, update and uninstall functions for the rpgc_dndbasic module.
  */
 
-use Drupal\taxonomy\Entity\Term;
-use Drupal\taxonomy\Entity\Vocabulary;
-
 /**
  * Implements hook_install().
  */
 function rpgc_dndbasic_install() {
-  $term = Term::create([
-    'vid' => 'rpgc_names',
-    'name' => 'John',
-    'field_rpgcn_culture' => [],
-    'field_rpgcn_firstlast' => ['first'],
-    'field_rpgcn_genre' => ['fantasy'],
-    'field_rpgcn_malefemale' => ['male'],
-    'field_rpgcn_originator' => ['rpgc_dndbasic'],
-    'field_rpgcn_race' => ['human'],
-  ]);
-  $term->save();
+  $importer = \Drupal::service('rpgc.utility');
+  $importer->importNames('rpgc_dndbasic');
 }
 
 /**
