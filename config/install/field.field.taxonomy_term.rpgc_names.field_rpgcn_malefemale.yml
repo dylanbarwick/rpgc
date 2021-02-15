@@ -2,15 +2,15 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.taxonomy_term.field_dndbasic_culture
-    - taxonomy.vocabulary.dndbasic_names
+    - field.storage.taxonomy_term.field_rpgcn_malefemale
+    - taxonomy.vocabulary.rpgc_names
   module:
     - options
-id: taxonomy_term.dndbasic_names.field_dndbasic_culture
-field_name: field_dndbasic_culture
+id: taxonomy_term.rpgc_names.field_rpgcn_malefemale
+field_name: field_rpgcn_malefemale
 entity_type: taxonomy_term
-bundle: dndbasic_names
-label: Culture
+bundle: rpgc_names
+label: Male/female
 description: ''
 required: true
 translatable: false

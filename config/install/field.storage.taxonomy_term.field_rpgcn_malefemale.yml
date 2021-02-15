@@ -4,18 +4,18 @@ dependencies:
   module:
     - options
     - taxonomy
-id: taxonomy_term.field_dndbasic_first_last
-field_name: field_dndbasic_first_last
+id: taxonomy_term.field_rpgcn_malefemale
+field_name: field_rpgcn_malefemale
 entity_type: taxonomy_term
 type: list_string
 settings:
   allowed_values:
     -
-      value: first
-      label: First
+      value: male
+      label: Male
     -
-      value: last
-      label: Last
+      value: female
+      label: Female
   allowed_values_function: ''
 module: options
 locked: false

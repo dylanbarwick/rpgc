@@ -337,7 +337,7 @@ class RPGCEntity extends EditorialContentEntityBase implements RPGCEntityInterfa
     $fields['status']->setDescription(t('A boolean indicating whether the RPGC Entity is published.'))
       ->setDisplayOptions('form', [
         'type' => 'boolean_checkbox',
-        'weight' => -3,
+        'weight' => 20,
       ]);
 
     $fields['created'] = BaseFieldDefinition::create('created')

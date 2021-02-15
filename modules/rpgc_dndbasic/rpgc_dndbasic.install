@@ -6,17 +6,21 @@
  */
 
 use Drupal\taxonomy\Entity\Term;
+use Drupal\taxonomy\Entity\Vocabulary;
 
 /**
  * Implements hook_install().
  */
 function rpgc_dndbasic_install() {
   $term = Term::create([
-    'vid' => 'dndbasic_names',
-    'name' => 'Floom',
-    'field_dndbasic_first_last' => ['first'],
-    'field_dndbasic_culture' => ['human', 'dwarf'],
-    'field_dndbasic_male_female' => ['male'],
+    'vid' => 'rpgc_names',
+    'name' => 'John',
+    'field_rpgcn_culture' => [],
+    'field_rpgcn_firstlast' => ['first'],
+    'field_rpgcn_genre' => ['fantasy'],
+    'field_rpgcn_malefemale' => ['male'],
+    'field_rpgcn_originator' => ['rpgc_dndbasic'],
+    'field_rpgcn_race' => ['human'],
   ]);
   $term->save();
 }
@@ -28,6 +32,8 @@ function rpgc_dndbasic_install() {
  * the entity type bundle itself. Scorched earth.
  */
 function rpgc_dndbasic_uninstall() {
+  $entity_type_manager = \Drupal::entityTypeManager();
+
   // Delete all RPGC entities of given content type.
   $storage_handler = \Drupal::entityTypeManager()
     ->getStorage('rpgc_entity');
@@ -38,5 +44,7 @@ function rpgc_dndbasic_uninstall() {
   $content_type = \Drupal::entityTypeManager()
     ->getStorage('rpgc_entity_type')
     ->load('rpgc_dndbasic');
-  $content_type->delete();
+  if (!is_null($content_type)) {
+    $content_type->delete();
+  }
 }

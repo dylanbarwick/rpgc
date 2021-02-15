@@ -2,14 +2,14 @@ langcode: en
 status: true
 dependencies:
   config:
-    - field.storage.taxonomy_term.field_dndbasic_first_last
-    - taxonomy.vocabulary.dndbasic_names
+    - field.storage.taxonomy_term.field_rpgcn_firstlast
+    - taxonomy.vocabulary.rpgc_names
   module:
     - options
-id: taxonomy_term.dndbasic_names.field_dndbasic_first_last
-field_name: field_dndbasic_first_last
+id: taxonomy_term.rpgc_names.field_rpgcn_firstlast
+field_name: field_rpgcn_firstlast
 entity_type: taxonomy_term
-bundle: dndbasic_names
+bundle: rpgc_names
 label: First/last
 description: ''
 required: true
