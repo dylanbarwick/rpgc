@@ -1,0 +1,482 @@
+originator: rpgc_dndbasic
+genre:
+  fantasy:
+    names:
+      races:
+        human:
+          -
+            name: Altair
+            field_rpgcn_firstlast:
+              - first
+              - last
+            field_rpgcn_malefemale:
+              - male
+              - female
+          -
+            name: Arcadia
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Caspian
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Cassius
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Darius
+            field_rpgcn_firstlast:
+              - first
+              - last
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Finian
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Tristan
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Lyra
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Kyra
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Lilith
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Oralie
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Aiyana
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Brielle
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Cassia
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Evanth
+            field_rpgcn_firstlast:
+              - first
+              - last
+            field_rpgcn_malefemale:
+              - female
+              - male
+          -
+            name: Ginerva
+            field_rpgcn_firstlast:
+              - last
+            field_rpgcn_malefemale:
+              - female
+              - male
+          -
+            name: Orinthea
+            field_rpgcn_firstlast:
+              - last
+            field_rpgcn_malefemale:
+              - female
+              - male
+          -
+            name: Pryderi
+            field_rpgcn_firstlast:
+              - last
+            field_rpgcn_malefemale:
+              - female
+              - male
+          -
+            name: Serian
+            field_rpgcn_firstlast:
+              - first
+              - last
+            field_rpgcn_malefemale:
+              - female
+              - male
+          -
+            name: Vasilis
+            field_rpgcn_firstlast:
+              - last
+            field_rpgcn_malefemale:
+              - female
+              - male
+        elf:
+          -
+            name: Hacathra
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Gaelira
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Gwynnestri
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Holcene
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Ialantha
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Kyrrha
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Hatharal
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Inialos
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Jhaeros
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Klaern
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Molonym
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Narbeth
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Adanell
+            field_rpgcn_firstlast:
+              - last
+            field_rpgcn_malefemale:
+              - male
+              - female
+          -
+            name: Beinion
+            field_rpgcn_firstlast:
+              - last
+            field_rpgcn_malefemale:
+              - male
+              - female
+          -
+            name: Castien
+            field_rpgcn_firstlast:
+              - last
+            field_rpgcn_malefemale:
+              - male
+              - female
+          -
+            name: Cormyth
+            field_rpgcn_firstlast:
+              - last
+            field_rpgcn_malefemale:
+              - male
+              - female
+          -
+            name: Deryth
+            field_rpgcn_firstlast:
+              - last
+            field_rpgcn_malefemale:
+              - male
+              - female
+          -
+            name: Estelda
+            field_rpgcn_firstlast:
+              - last
+            field_rpgcn_malefemale:
+              - male
+              - female
+        dwarf:
+          -
+            name: Gimren
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Graldor
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Hallbergur
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Hjolman
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Isakur
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Jatmundur
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Gadona
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Gimona
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Hanarav
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Jaderyn
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Kasi
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Leera
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Ragnaheim
+            field_rpgcn_firstlast:
+              - last
+            field_rpgcn_malefemale:
+              - female
+              - male
+          -
+            name: Thuldohren
+            field_rpgcn_firstlast:
+              - last
+            field_rpgcn_malefemale:
+              - female
+              - male
+          -
+            name: Thelron
+            field_rpgcn_firstlast:
+              - last
+            field_rpgcn_malefemale:
+              - female
+              - male
+          -
+            name: Svjarson
+            field_rpgcn_firstlast:
+              - last
+            field_rpgcn_malefemale:
+              - female
+              - male
+          -
+            name: Sorkvi
+            field_rpgcn_firstlast:
+              - last
+            field_rpgcn_malefemale:
+              - female
+              - male
+          -
+            name: Skafith
+            field_rpgcn_firstlast:
+              - last
+            field_rpgcn_malefemale:
+              - female
+              - male
+        halfling:
+          -
+            name: Everard
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Fagan
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Fishel
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Garret
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Griffo
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Halfred
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - male
+          -
+            name: Genofeva
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Halette
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Ingitrude
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Jacquenette
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Kanara
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Kiara
+            field_rpgcn_firstlast:
+              - first
+            field_rpgcn_malefemale:
+              - female
+          -
+            name: Grubb
+            field_rpgcn_firstlast:
+              - last
+            field_rpgcn_malefemale:
+              - male
+              - female
+          -
+            name: Hamson
+            field_rpgcn_firstlast:
+              - last
+            field_rpgcn_malefemale:
+              - male
+              - female
+          -
+            name: Hedgehopper
+            field_rpgcn_firstlast:
+              - last
+            field_rpgcn_malefemale:
+              - male
+              - female
+          -
+            name: Hillbrow
+            field_rpgcn_firstlast:
+              - last
+            field_rpgcn_malefemale:
+              - male
+              - female
+          -
+            name: Humblegrain
+            field_rpgcn_firstlast:
+              - last
+            field_rpgcn_malefemale:
+              - male
+              - female
+          -
+            name: Longbottom
+            field_rpgcn_firstlast:
+              - last
+            field_rpgcn_malefemale:
+              - male
+              - female
