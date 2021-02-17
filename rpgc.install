@@ -7,19 +7,50 @@
 
 use Drupal\taxonomy\Entity\Term;
 use Drupal\taxonomy\Entity\Vocabulary;
+use Drupal\Component\Serialization\Yaml;
 
 /**
  * Implements hook_install().
  */
 function rpgc_install() {
-  // $term = Term::create([
-  //   'vid' => 'dndbasic_names',
-  //   'name' => 'Floom',
-  //   'field_dndbasic_first_last' => ['first'],
-  //   'field_dndbasic_culture' => ['human', 'dwarf'],
-  //   'field_dndbasic_male_female' => ['male'],
-  // ]);
-  // $term->save();
+
+  $module_handler = \Drupal::service('module_handler');
+  $module_path = $module_handler->getModule('rpgc')->getPath();
+  $termfile = $module_path . '/config/system/rpgc-names--rpgc.yml';
+
+  // If the file exists.
+  if (file_exists($termfile)) {
+    $terms = Yaml::decode(file_get_contents($termfile));
+  }
+
+  $terms_array = [];
+  $originator = $terms['originator'];
+  foreach ($terms['genre'] as $gkey => $gvalue) {
+    $genre = $gkey;
+    foreach ($gvalue['names']['races'] as $rkey => $rvalue) {
+      foreach ($rvalue as $nkey => $nvalue) {
+        $thisterm = [
+          'vid' => 'rpgc_names',
+          'name' => $nvalue['name'],
+          'field_rpgcn_genre' => [$gkey],
+          'field_rpgcn_originator' => [$originator],
+          'field_rpgcn_race' => [$rkey],
+        ];
+        // Make the values safe.
+        if (!empty($nvalue['field_rpgcn_culture'])) {
+          $thisterm['field_rpgcn_culture'] = $nvalue['field_rpgcn_culture'];
+        }
+        if (!empty($nvalue['field_rpgcn_firstlast'])) {
+          $thisterm['field_rpgcn_firstlast'] = $nvalue['field_rpgcn_firstlast'];
+        }
+        if (!empty($nvalue['field_rpgcn_malefemale'])) {
+          $thisterm['field_rpgcn_malefemale'] = $nvalue['field_rpgcn_malefemale'];
+        }
+        $term_to_go = Term::create($thisterm);
+        $term_to_go->save();
+      }
+    }
+  }
 }
 
 /**
