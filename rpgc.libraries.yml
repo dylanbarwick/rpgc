@@ -1,0 +1,11 @@
+rpgc-library:
+  css:
+    component:
+      css/rpgc.css: {}
+  js:
+    js/rpgc.js: {}
+  dependencies:
+    - core/drupal.ajax
+    - core/jquery
+    - core/jquery.once
+    - core/drupal
