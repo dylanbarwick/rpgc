@@ -65,15 +65,32 @@ class RPGCEntityAccessControlHandler extends EntityAccessControlHandler {
    * {@inheritdoc}
    */
   protected function checkCreateAccess(AccountInterface $account, array $context, $entity_bundle = NULL) {
-    return AccessResult::allowedIfHasPermission($account, 'add rpgc entity entities');
+    $allRpgcEntitiesPermission = AccessResult::allowedIfHasPermission($account, 'add rpgc entity entities');
+    $specificRpgcEntitiesPermission = AccessResult::allowedIfHasPermission($account, $entity_bundle . ' create entities');
+
+    // If the user has permission to create all RPGC entities.
+    if ($allRpgcEntitiesPermission->isAllowed()) {
+      return $allRpgcEntitiesPermission;
+    }
+    // If the user has permission to create just these entities.
+    elseif ($specificRpgcEntitiesPermission->isAllowed()) {
+      return $specificRpgcEntitiesPermission;
+    }
+    // Otherwise, return the result of an already failed access check.
+    else {
+      return AccessResult::allowedIfHasPermission($account, 'add rpgc entity entities');
+    }
   }
 
   /**
    * Test for given 'own' permission.
    *
    * @param \Drupal\Core\Entity\EntityInterface $entity
-   * @param $operation
+   *   The entity interface.
+   * @param string $operation
+   *   The kind of operation being performed.
    * @param \Drupal\Core\Session\AccountInterface $account
+   *   User account.
    *
    * @return string|null
    *   The permission string indicating it's allowed.

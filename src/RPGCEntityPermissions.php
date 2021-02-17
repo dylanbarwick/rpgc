@@ -3,16 +3,14 @@
 namespace Drupal\rpgc;
 
 use Drupal\Core\StringTranslation\StringTranslationTrait;
-use Drupal\rpgc\Entity\RPGCEntity;
-
+use Drupal;
 
 /**
  * Provides dynamic permissions for RPGC Entity of different types.
  *
  * @ingroup rpgc
- *
  */
-class RPGCEntityPermissions{
+class RPGCEntityPermissions {
 
   use StringTranslationTrait;
 
@@ -21,13 +19,16 @@ class RPGCEntityPermissions{
    *
    * @return array
    *   The RPGCEntity by bundle permissions.
-   *   @see \Drupal\user\PermissionHandlerInterface::getPermissions()
+   *
+   * @see \Drupal\user\PermissionHandlerInterface::getPermissions()
    */
   public function generatePermissions() {
     $perms = [];
 
-    foreach (RPGCEntity::loadMultiple() as $type) {
-      $perms += $this->buildPermissions($type);
+    $bundles = Drupal::service('entity_type.bundle.info')->getBundleInfo('rpgc_entity');
+    foreach ($bundles as $key => $value) {
+      $value['bundle_type'] = $key;
+      $perms += $this->buildBundlePermissions($value);
     }
 
     return $perms;
@@ -36,15 +37,15 @@ class RPGCEntityPermissions{
   /**
    * Returns a list of node permissions for a given node type.
    *
-   * @param \Drupal\rpgc\Entity\RPGCEntity $type
-   *   The RPGCEntity type.
+   * @param array $bundle_info
+   *   The id and label of a sub module entity.
    *
    * @return array
    *   An associative array of permission names and descriptions.
    */
-  protected function buildPermissions(RPGCEntity $type) {
-    $type_id = $type->id();
-    $type_params = ['%type_name' => $type->label()];
+  protected function buildBundlePermissions(array $bundle_info) {
+    $type_id = $bundle_info['bundle_type'];
+    $type_params = ['%type_name' => $bundle_info['label']];
 
     return [
       "$type_id create entities" => [
