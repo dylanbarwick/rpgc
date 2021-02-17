@@ -160,7 +160,7 @@ class RpgcDndbasicCreationService implements RpgcDndbasicCreationServiceInterfac
   public function getClassDescriptionAddendum(array $contenders) {
     $desc = '<br/>Potential classes:<br/>';
     if (count($contenders) === 0) {
-      $desc .= 'this is a pretty weedy character without enough prime requisites';
+      $desc .= 'This is a pretty weedy character without enough prime requisites';
     }
     else {
       foreach ($contenders as $key => $value) {
@@ -347,6 +347,20 @@ class RpgcDndbasicCreationService implements RpgcDndbasicCreationServiceInterfac
       $row[$key] = $value;
       $row['details']['full_stat'][$key] = $full_rollo[$key];
     }
+
+    // Set up the $params array for the name generator.
+    // [firstlast, race, malefemale, genre, originator, culture].
+    // dump($row);
+    $params = [
+      'firstlast' => ['first'],
+      'race' => [$row['details']['class']['race']],
+      'malefemale' => [$row['sex']],
+      'genre' => ['fantasy'],
+      'originator' => ['rpgc_dndbasic'],
+    ];
+    $row['name'] = $this->rpgcUtility->generateName($params);
+    $params['firstlast'] = ['last'];
+    $row['name'] .= ' ' . $this->rpgcUtility->generateName($params);
 
     return $row;
   }

@@ -46,6 +46,9 @@ function rpgc_dndbasic_form_alter(&$form, FormStateInterface $form_state, $form_
 
     $pc = $rpgc_create->generatePc();
 
+    // Name.
+    $form['name']['widget'][0]['value']['#default_value'] = $pc['name'];
+
     // Stats.
     $defaultdice = $systemconfig['defaultdicedetails'];
     foreach ($systemconfig['statistics'] as $key => $value) {
