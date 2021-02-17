@@ -45,6 +45,7 @@ class RPGCEntityForm extends ContentEntityForm {
         '#weight' => 10,
       ];
     }
+    $form['#attached']['library'][] = 'rpgc/rpgc-library';
 
     return $form;
   }
