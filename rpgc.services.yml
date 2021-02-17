@@ -4,4 +4,4 @@ services:
     arguments: ['rpgc']
   rpgc.utility:
     class: Drupal\rpgc\Services\RpgcUtilityService
-    arguments: ['@module_handler', '@serialization.yaml', '@messenger', '@string_translation']
+    arguments: ['@module_handler', '@serialization.yaml', '@messenger', '@string_translation', '@database']

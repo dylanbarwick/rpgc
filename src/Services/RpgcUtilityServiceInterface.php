@@ -54,4 +54,24 @@ interface RpgcUtilityServiceInterface {
    */
   public function getSystem($whichSystem = NULL);
 
+  /**
+   * Helper service to import name taxonomy terms from a yaml file.
+   *
+   * @param string $whichModule
+   *   The machine name of the module to import names from.
+   */
+  public function importNames($whichModule = NULL);
+
+  /**
+   * Function to generate names.
+   *
+   * @param array $params
+   *   An array of parameters (all arrays) that act as filters for the search.
+   *   $firstlast, $race, $malefemale, $genre, $originator, $culture.
+   *
+   * @return string
+   *   The name.
+   */
+  public function generateName(array $params);
+
 }

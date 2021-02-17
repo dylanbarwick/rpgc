@@ -4,4 +4,4 @@ rpgc_dndbasic.generator:
     _form: '\Drupal\rpgc_dndbasic\Form\RpgcDndbasicGenerator'
     _title: 'D&D Basic NPC generator'
   requirements:
-    _permission: 'generate NPCs'
+    _permission: 'generate npcs'

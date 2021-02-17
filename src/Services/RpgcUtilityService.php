@@ -9,6 +9,7 @@ use Drupal\Core\Messenger\MessengerTrait;
 use Drupal\Core\StringTranslation\StringTranslationTrait;
 use Drupal\Core\StringTranslation\TranslationInterface;
 use Drupal\taxonomy\Entity\Term;
+use Drupal\Core\Database\Connection;
 
 /**
  * Class RpgcUtilityService.
@@ -33,6 +34,13 @@ class RpgcUtilityService implements RpgcUtilityServiceInterface {
   protected $serializationYaml;
 
   /**
+   * The database connection.
+   *
+   * @var \Drupal\Core\Database\Connection
+   */
+  protected $connection;
+
+  /**
    * Constructs a new RpgcUtilityService object.
    *
    * @param \Drupal\Core\Extension\ModuleHandlerInterface $module_handler
@@ -43,16 +51,20 @@ class RpgcUtilityService implements RpgcUtilityServiceInterface {
    *   The messenger service.
    * @param \Drupal\Core\StringTranslation\TranslationInterface $translation
    *   The translation service.
+   * @param \Drupal\Core\Database\Connection $connection
+   *   The database service.
    */
   public function __construct(
       ModuleHandlerInterface $module_handler,
       SerializationInterface $serialization_yaml,
       MessengerInterface $messenger,
-      TranslationInterface $translation) {
+      TranslationInterface $translation,
+      Connection $connection) {
     $this->moduleHandler = $module_handler;
     $this->serializationYaml = $serialization_yaml;
     $this->messenger = $messenger;
     $this->setStringTranslation($translation);
+    $this->connection = $connection;
   }
 
   /**
@@ -225,6 +237,51 @@ class RpgcUtilityService implements RpgcUtilityServiceInterface {
         '%filename' => $termfile,
       ]), 'error');
     }
+  }
+
+  /**
+   * Function to generate names.
+   *
+   * @param array $params
+   *   An array of parameters (all arrays) that act as filters for the search.
+   *   $firstlast, $race, $malefemale, $genre, $originator, $culture.
+   *
+   * @return string
+   *   The name.
+   */
+  public function generateName(array $params) {
+    $query = $this->connection->select('taxonomy_term_field_data', 't');
+    $query->condition('vid', "rpgc_names");
+    $query->addField('t', 'name');
+    if (!empty($params['firstlast'])) {
+      $query->leftJoin('taxonomy_term__field_rpgcn_firstlast', 'trf', 'trf.entity_id = t.tid');
+      $query->condition('trf.field_rpgcn_firstlast_value', $params['firstlast'], 'IN');
+    }
+    if (!empty($params['race'])) {
+      $query->leftJoin('taxonomy_term__field_rpgcn_race', 'trr', 'trr.entity_id = t.tid');
+      $query->condition('trr.field_rpgcn_race_value', $params['race'], 'IN');
+    }
+    if (!empty($params['malefemale'])) {
+      $query->leftJoin('taxonomy_term__field_rpgcn_malefemale', 'trm', 'trm.entity_id = t.tid');
+      $query->condition('trm.field_rpgcn_malefemale_value', $params['malefemale'], 'IN');
+    }
+    if (!empty($params['genre'])) {
+      $query->leftJoin('taxonomy_term__field_rpgcn_genre', 'trg', 'trg.entity_id = t.tid');
+      $query->condition('trg.field_rpgcn_genre_value', $params['genre'], 'IN');
+    }
+    if (!empty($params['originator'])) {
+      $query->leftJoin('taxonomy_term__field_rpgcn_originator', 'tro', 'tro.entity_id = t.tid');
+      $query->condition('tro.field_rpgcn_originator_value', $params['originator'], 'IN');
+    }
+    if (!empty($params['culture'])) {
+      $query->leftJoin('taxonomy_term__field_rpgcn_culture', 'trc', 'trc.entity_id = t.tid');
+      $query->condition('trc.field_rpgcn_culture_value', $params['race'], 'IN');
+    }
+
+    $query->orderRandom();
+    $query->range(0, 1);
+    $result = $query->execute()->fetchAll();
+    return $result[0]->name;
   }
 
 }
