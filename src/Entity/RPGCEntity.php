@@ -56,10 +56,10 @@ use Drupal\user\UserInterface;
  *     "published" = "status",
  *   },
  *   links = {
- *     "canonical" = "/admin/structure/rpgc/rpgc_entity/{rpgc_entity}",
+ *     "canonical" = "/rpgc/rpgc_entity/{rpgc_entity}",
  *     "add-page" = "/admin/structure/rpgc/rpgc_entity/add",
  *     "add-form" = "/rpgc/add/{rpgc_entity_type}",
- *     "edit-form" = "/admin/structure/rpgc/rpgc_entity/{rpgc_entity}/edit",
+ *     "edit-form" = "/rpgc/rpgc_entity/{rpgc_entity}/edit",
  *     "delete-form" = "/admin/structure/rpgc/rpgc_entity/{rpgc_entity}/delete",
  *     "version-history" = "/admin/structure/rpgc/rpgc_entity/{rpgc_entity}/revisions",
  *     "revision" = "/admin/structure/rpgc/rpgc_entity/{rpgc_entity}/revisions/{rpgc_entity_revision}/view",
