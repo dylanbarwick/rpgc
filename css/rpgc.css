@@ -20,15 +20,6 @@
   padding: 0.3em 0.5em;
 }
 
-.rpgc-entity-form .form-wrapper .form-item[class*="-stat-"] {
-  width: 40%;
-  display: inline-block;
-}
-
-.rpgc-entity-form .form-wrapper .form-item input[name*="_stat_"] {
-  width: 3em;
-}
-
 .rpgc-entity-form .form-wrapper .form-item .description {
   font-style: italic;
   margin-left: 1.2em;

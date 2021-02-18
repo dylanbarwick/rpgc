@@ -1,0 +1,11 @@
+rpgc_dndbasic-library:
+  css:
+    component:
+      css/rpgc_dndbasic.css: {}
+  js:
+    js/rpgc_dndbasic.js: {}
+  dependencies:
+    - core/drupal.ajax
+    - core/jquery
+    - core/jquery.once
+    - core/drupal
