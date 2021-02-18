@@ -243,6 +243,7 @@ class RpgcDndbasicGenerator extends FormBase {
         '#rows' => $rows,
       ];
     }
+    $form['#attached']['library'][] = 'rpgc_dndbasic/rpgc_dndbasic-library';
 
     return $form;
   }

@@ -7,6 +7,7 @@
 
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Form\FormStateInterface;
+use Drupal\Core\Entity\EntityInterface;
 
 /**
  * Implements hook_help().
@@ -73,6 +74,14 @@ function rpgc_dndbasic_form_alter(&$form, FormStateInterface $form_state, $form_
 
     // Hit points.
     $form['field_rpgc_dndbasic_hp']['widget'][0]['value']['#default_value'] = $pc['hitpoints'];
+
+  }
+  $forms_to_add_to = [
+    'rpgc_entity_rpgc_dndbasic_edit_form',
+    'rpgc_entity_rpgc_dndbasic_add_form',
+  ];
+  if (in_array($form_id, $forms_to_add_to)) {
+    $form['#attached']['library'][] = 'rpgc_dndbasic/rpgc_dndbasic-library';
   }
 }
 
@@ -84,4 +93,77 @@ function cmp($a, $b) {
     return 0;
   }
   return ($a['weight'] > $b['weight']) ? -1 : 1;
+}
+
+/**
+ * Implements hook_preprocess_page().
+ */
+function rpgc_dndbasic_preprocess_page(&$variables) {
+  // Provide information about the currently loaded page / Entity
+  // Default (and for non-entity pages):
+  // Null on system pages.
+  $variables['entity_type'] = NULL;
+  $variables['bundle'] = NULL;
+  $variables['entity'] = NULL;
+  if ($entity = _get_current_controller_entity()) {
+    $variables['entity_type'] = $entity->getEntityTypeId();
+    $variables['bundle'] = $entity->bundle();
+    $variables['entity'] = $entity;
+  }
+  if ($variables['bundle'] == 'rpgc_dndbasic') {
+    $variables['#attached']['library'][] = 'rpgc_dndbasic/rpgc_dndbasic-library';
+  }
+}
+
+/**
+ * Helper function to return the currently loaded entity from the URL.
+ *
+ * Returns NULL if the currently loaded page is no entity.
+ *
+ * @return \Drupal\Core\Entity\EntityInterface
+ *   Returns an entity interface.
+ */
+function _get_current_controller_entity() {
+  $currentRouteParameters = \Drupal::routeMatch()->getParameters();
+  foreach ($currentRouteParameters as $param) {
+    if ($param instanceof EntityInterface) {
+      $entity = $param;
+      return $entity;
+    }
+  }
+  return NULL;
+}
+
+/**
+ * Implements hook_preprocess_HOOK().
+ */
+function rpgc_dndbasic_preprocess_field__rpgc_entity__rpgc_dndbasic(&$variables) {
+
+  // Add classes to other fields.
+  if (strpos($variables['field_name'], 'field_rpgc_dndbasic_') === 0) {
+    $variables['attributes']['class'] = [
+      'dndbasic-field',
+      'rpgc-entity-field',
+    ];
+    $variables['title_attributes']['class'][] = 'field-title';
+    $variables['content_attributes']['class'][] = 'field-content';
+  }
+
+  // Add classes to entity type fields (name, class, race etc).
+  if (in_array($variables['field_name'], ['race', 'sex', 'class'])) {
+    $variables['attributes']['class'] = [
+      'dndbasic-field',
+      'rpgc-entity-field-' . $variables['field_name'],
+    ];
+    $variables['title_attributes']['class'][] = 'field-title';
+    $variables['content_attributes']['class'][] = 'field-content';
+  }
+
+  // Add classes to stats.
+  if (strpos($variables['field_name'], '_stat_')) {
+    $variables['attributes']['class'][] = 'statistic';
+    $variables['title_attributes']['class'][] = 'stat-title';
+    $variables['content_attributes']['class'][] = 'stat-content';
+  }
+
 }

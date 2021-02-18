@@ -60,13 +60,3 @@ function rpgc_theme_suggestions_rpgc_entity(array $variables) {
   $suggestions[] = 'rpgc_entity__' . $entity->id() . '__' . $sanitized_view_mode;
   return $suggestions;
 }
-
-/**
- * Implements hook_form_alter().
- */
-// function rpgc_form_alter(&$form, FormStateInterface $form_state, $form_id) {
-//   // Add css library to all rpgc entity forms.
-//   if (strpos($form_id, 'rpgc_entity_') === 0) {
-//     $form['#attached']['library'][] = 'rpgc/rpgc-library';
-//   }
-// }
