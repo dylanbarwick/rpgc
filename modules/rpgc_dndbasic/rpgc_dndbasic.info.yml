@@ -5,3 +5,4 @@ core: 8.x
 package: 'RPGC'
 dependencies:
   - rpgc
+  - field_group
