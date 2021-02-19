@@ -207,7 +207,6 @@ class RpgcDndbasicCreationService implements RpgcDndbasicCreationServiceInterfac
    *   An array formatted to suit a table-shaped render array.
    */
   public function generatePc(array $params = NULL) {
-
     $rows = [];
     $systemconfig = $this->getSystemConfig();
 

@@ -38,13 +38,42 @@ class RpgcDndbasicGenerator extends FormBase {
    * {@inheritdoc}
    */
   public function buildForm(array $form, FormStateInterface $form_state) {
+    // Retrieve all GET variables from URL.
     $request = $this->getRequest()->query->all();
+
+    // Set the services object.
     $rpgc_create = $this->rpgcDndbasicCreation;
+
+    // Read the system config.
     $systemconfig = $rpgc_create->getSystemConfig();
+
+    // Remove any invalid request vars that could break the layout.
+    $validvars = [];
+    $validvargroups = [
+      'classes',
+      'defaultdicedetails',
+      'alignment',
+      'sex',
+    ];
+    foreach ($validvargroups as $vvgkey => $vvgvalue) {
+      foreach ($systemconfig[$vvgvalue] as $key => $value) {
+        $validvars[] = $key;
+      }
+    }
+
+    $validvars[] = 'minlevel';
+    $validvars[] = 'maxlevel';
+    $validvars[] = 'num_npcs';
+    // Feed the request variables to makeValid() to remove anything dodgy.
+    $this->makeValid($validvars, $request);
+
+    // If there are request variables, ie we're looking at a generated list,
+    // close the form elements.
     $open_details = TRUE;
     if (count($request)) {
       $open_details = FALSE;
     }
+
     $form['classes'] = [
       '#type' => 'details',
       '#title' => $this->t('Character classes'),
@@ -54,7 +83,9 @@ class RpgcDndbasicGenerator extends FormBase {
     foreach ($systemconfig['classes'] as $key => $value) {
       $default_value = 0;
       if (!empty($request[$key])) {
-        $default_value = $request[$key];
+        if ($request[$key] !== 0) {
+          $default_value = 1;
+        }
       }
       $form['classes'][$key] = [
         '#type' => 'checkbox',
@@ -100,12 +131,14 @@ class RpgcDndbasicGenerator extends FormBase {
       else {
         $default = $systemconfig['defaultdicedetails'][$key];
       }
+      $default = $default < 0 ? 0 : $default;
       $form['defaultdicedetails'][$key] = [
         '#type' => 'number',
         '#title' => $dice_text[$key]['title'],
         '#default_value' => $default,
         '#description' => $dice_text[$key]['description'],
         '#weight' => '0',
+        '#min' => 0,
       ];
     }
 
@@ -249,6 +282,22 @@ class RpgcDndbasicGenerator extends FormBase {
   }
 
   /**
+   * Helper function to check if GET vars are valid.
+   *
+   * @param array $validvars
+   *   A list of valid variables as specified by the system yml file.
+   * @param array $request
+   *   All GET variables, passed by ref so any dodgy stuff can be removed here.
+   */
+  public function makeValid(array $validvars, array &$request) {
+    foreach ($request as $key => $value) {
+      if (!in_array($key, $validvars)) {
+        unset($request[$key]);
+      }
+    }
+  }
+
+  /**
    * {@inheritdoc}
    */
   public function validateForm(array &$form, FormStateInterface $form_state) {
@@ -256,10 +305,26 @@ class RpgcDndbasicGenerator extends FormBase {
       // @TODO: Validate fields.
     }
 
+    // Make sure minlevel is <= maxlevel.
     if ($form_state->getValue('minlevel') > $form_state->getValue('maxlevel')) {
       $form_state->setErrorByName('minlevel', $this->t('The minimum level is too high.'));
       $form_state->setErrorByName('maxlevel', $this->t('The maximum level is too low.'));
     }
+
+    // Make sure all number fields are positive numbers.
+    $values = $form_state->getValues();
+    $positive_only = [
+      'dietype',
+      'numthrown',
+      'numcounted',
+      'addition',
+    ];
+    foreach ($positive_only as $value) {
+      if ((int) $values[$value] < 0) {
+        $form_state->setErrorByName($value, $this->t('No negative numbers for dice fields.'));
+      }
+    }
+
     parent::validateForm($form, $form_state);
   }
 
