@@ -150,7 +150,7 @@ function rpgc_dndbasic_preprocess_field__rpgc_entity__rpgc_dndbasic(&$variables)
   }
 
   // Add classes to entity type fields (name, class, race etc).
-  if (in_array($variables['field_name'], ['race', 'sex', 'class'])) {
+  if (in_array($variables['field_name'], ['race', 'sex', 'class', 'history'])) {
     $variables['attributes']['class'] = [
       'dndbasic-field',
       'rpgc-entity-field-' . $variables['field_name'],
