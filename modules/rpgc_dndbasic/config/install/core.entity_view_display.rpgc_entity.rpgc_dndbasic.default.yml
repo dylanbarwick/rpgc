@@ -13,31 +13,56 @@ dependencies:
     - field.field.rpgc_entity.rpgc_dndbasic.field_rpgc_dndbasic_stat_wis
     - rpgc.rpgc_entity_type.rpgc_dndbasic
   module:
+    - field_group
     - options
-    - user
+third_party_settings:
+  field_group:
+    group_dndbasic_statistics:
+      children:
+        - field_rpgc_dndbasic_stat_str
+        - field_rpgc_dndbasic_stat_dex
+        - field_rpgc_dndbasic_stat_int
+        - field_rpgc_dndbasic_stat_con
+        - field_rpgc_dndbasic_stat_wis
+        - field_rpgc_dndbasic_stat_cha
+      parent_name: ''
+      weight: 7
+      format_type: html_element
+      region: content
+      format_settings:
+        element: div
+        show_label: true
+        label_element: h3
+        label_element_classes: statlabel
+        attributes: ''
+        effect: none
+        speed: fast
+        id: dndbasic_stats
+        classes: dndbasic_stats
+      label: Statistics
 id: rpgc_entity.rpgc_dndbasic.default
 targetEntityType: rpgc_entity
 bundle: rpgc_dndbasic
 mode: default
 content:
   class:
-    label: above
+    label: inline
     type: string
-    weight: -4
+    weight: 3
     placeholder: 'Fighter/Cleric/Professor/Dilletante/Space Pirate...'
     region: content
     settings:
       link_to_entity: false
     third_party_settings: {  }
   field_rpgc_dndbasic_align:
-    weight: 14
+    weight: 6
     label: above
     settings: {  }
     third_party_settings: {  }
     type: list_default
     region: content
   field_rpgc_dndbasic_hp:
-    weight: 13
+    weight: 5
     label: above
     settings:
       thousand_separator: ''
@@ -46,7 +71,7 @@ content:
     type: number_integer
     region: content
   field_rpgc_dndbasic_lvl:
-    weight: 12
+    weight: 4
     label: above
     settings:
       thousand_separator: ''
@@ -64,15 +89,6 @@ content:
     type: number_integer
     region: content
   field_rpgc_dndbasic_stat_con:
-    weight: 10
-    label: above
-    settings:
-      thousand_separator: ''
-      prefix_suffix: true
-    third_party_settings: {  }
-    type: number_integer
-    region: content
-  field_rpgc_dndbasic_stat_dex:
     weight: 9
     label: above
     settings:
@@ -81,8 +97,17 @@ content:
     third_party_settings: {  }
     type: number_integer
     region: content
-  field_rpgc_dndbasic_stat_int:
+  field_rpgc_dndbasic_stat_dex:
     weight: 7
+    label: above
+    settings:
+      thousand_separator: ''
+      prefix_suffix: true
+    third_party_settings: {  }
+    type: number_integer
+    region: content
+  field_rpgc_dndbasic_stat_int:
+    weight: 8
     label: above
     settings:
       thousand_separator: ''
@@ -100,7 +125,7 @@ content:
     type: number_integer
     region: content
   field_rpgc_dndbasic_stat_wis:
-    weight: 8
+    weight: 10
     label: above
     settings:
       thousand_separator: ''
@@ -109,43 +134,37 @@ content:
     type: number_integer
     region: content
   history:
-    label: visible
+    label: above
     type: basic_string
-    weight: 5
+    weight: 8
     region: content
     settings: {  }
     third_party_settings: {  }
   name:
-    label: above
+    label: hidden
     type: string
-    weight: -4
+    weight: 0
     region: content
     settings:
       link_to_entity: false
     third_party_settings: {  }
   race:
-    label: above
+    label: inline
     type: string
-    weight: -4
+    weight: 2
     placeholder: Human/Elf/Orc/Centaur...
     region: content
     settings:
       link_to_entity: false
     third_party_settings: {  }
   sex:
-    label: above
+    label: inline
     type: string
-    weight: -4
+    weight: 1
     placeholder: Male/Female
     region: content
     settings:
       link_to_entity: false
     third_party_settings: {  }
-  user_id:
-    label: hidden
-    type: author
-    weight: 0
-    region: content
-    settings: {  }
-    third_party_settings: {  }
-hidden: {  }
+hidden:
+  user_id: true
