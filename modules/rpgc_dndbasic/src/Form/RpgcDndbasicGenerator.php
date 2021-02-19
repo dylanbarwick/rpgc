@@ -228,14 +228,15 @@ class RpgcDndbasicGenerator extends FormBase {
       '#title' => $this->t('Number of NPCs'),
       '#default_value' => $default_num_npcs,
       '#description' => $this->t('Specify the number of NPCs to generate.'),
-      '#weight' => '0',
+      '#weight' => 10,
       '#min' => 1,
       '#max' => 144,
     ];
 
     $form['submit'] = [
       '#type' => 'submit',
-      '#value' => $this->t('Submit'),
+      '#value' => $this->t('Generate'),
+      '#weight' => 12,
     ];
 
     if (count($request)) {
@@ -274,6 +275,13 @@ class RpgcDndbasicGenerator extends FormBase {
         ],
         '#caption' => $caption,
         '#rows' => $rows,
+        '#attributes' => [
+          'class' => [
+            'npc-table',
+          ],
+        ],
+        '#prefix' => '<hr/>',
+        '#weight' => 12,
       ];
     }
     $form['#attached']['library'][] = 'rpgc_dndbasic/rpgc_dndbasic-library';
