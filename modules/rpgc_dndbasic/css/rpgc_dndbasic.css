@@ -64,3 +64,78 @@
 .dndbasic-field.rpgc-entity-field-history div {
   font-size: 1em;
 }
+
+/* NPC generator form */
+#rpgc-dndbasic-generator details {
+  margin-bottom: 1em;
+  border: 1px #676767 solid;
+  border-radius: 4px;
+  padding: 0.5em;
+}
+
+#rpgc-dndbasic-generator details summary {
+  font-size: 1.2em;
+  font-weight: bold;
+}
+
+#rpgc-dndbasic-generator .form-item {
+  margin: 0.3em 0;
+}
+
+#rpgc-dndbasic-generator .form-item label {
+}
+
+#rpgc-dndbasic-generator .form-item input.form-number {
+  margin-left: 1em;
+  display: block;
+}
+
+#rpgc-dndbasic-generator .form-item .description {
+  font-size: 0.8em;
+  margin-left: 1em;
+  font-style: italic;
+  width: 50%;
+  color: #999999;
+}
+
+#rpgc-dndbasic-generator .form-submit {
+  background-color: #BEAD6A;
+  padding: 0.3em 1em;
+  border-radius: 8px;
+}
+
+/* NPC generator table. */
+.npc-table {
+  text-align: left;
+  width: 100%;
+  margin-top: 1em;
+  border-collapse: collapse;
+  background-image: url('../images/paper-texture.jpg');
+  background-repeat: repeat;
+}
+
+.npc-table caption {
+  font-weight: bold;
+  font-size: 1.2em;
+  background-color: #BEAD6A;
+  padding: 0.3em 0.5em;
+  margin-bottom: 0.5em;
+}
+
+.npc-table thead tr {
+  border: 0 #BEAD6A solid;
+  border-width: 0 0 1px 0;
+  position: sticky;
+  top: 0;
+  background-color: #DCC879;
+}
+
+.npc-table tbody tr {
+  border: 0 #DCC879 solid;
+  border-width: 0 0 1px 0;
+}
+
+.npc-table tr td,
+.npc-table tr th {
+  padding: 0.2em;
+}
