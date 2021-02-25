@@ -5,3 +5,19 @@ rpgc.rpgc_system_picker:
     _title: 'RPG Character gaming system selection page'
   requirements:
     _permission: 'access the system-picker page'
+
+rpgc.all_pcs_redirect:
+  path: '/rpgc/list'
+  defaults:
+    _controller: '\Drupal\rpgc\Controller\AllMyPcsController::redirectToListAllPcs'
+    _title: 'Redirect to List of my Characters'
+  requirements:
+    _user_is_logged_in: 'TRUE'
+
+rpgc.all_pcs_list:
+  path: '/rpgc/list/{user}'
+  defaults:
+    _entity_list: 'rpgc_entity'
+    _title: 'List of my Characters'
+  requirements:
+    _user_is_logged_in: 'TRUE'

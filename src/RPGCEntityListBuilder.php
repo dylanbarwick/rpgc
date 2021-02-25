@@ -17,8 +17,8 @@ class RPGCEntityListBuilder extends EntityListBuilder {
    * {@inheritdoc}
    */
   public function buildHeader() {
-    $header['id'] = $this->t('RPGC Entity ID');
     $header['name'] = $this->t('Name');
+    $header['system'] = $this->t('System');
     return $header + parent::buildHeader();
   }
 
@@ -27,13 +27,17 @@ class RPGCEntityListBuilder extends EntityListBuilder {
    */
   public function buildRow(EntityInterface $entity) {
     /* @var \Drupal\rpgc\Entity\RPGCEntity $entity */
-    $row['id'] = $entity->id();
-    $row['name'] = Link::createFromRoute(
-      $entity->label(),
-      'entity.rpgc_entity.edit_form',
-      ['rpgc_entity' => $entity->id()]
-    );
-    return $row + parent::buildRow($entity);
+    if ($entity->get('user_id')->getString() == \Drupal::currentUser()->id()) {
+      $row['name'] = Link::createFromRoute(
+        $entity->label(),
+        'entity.rpgc_entity.edit_form',
+        ['rpgc_entity' => $entity->id()]
+      );
+      $row['system'] = $entity->type->entity->label();
+
+      return $row + parent::buildRow($entity);
+    }
+    return NULL;
   }
 
 }

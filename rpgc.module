@@ -6,7 +6,6 @@
  */
 
 use Drupal\Core\Routing\RouteMatchInterface;
-use Drupal\Core\Form\FormStateInterface;
 
 /**
  * Implements hook_help().
@@ -59,4 +58,13 @@ function rpgc_theme_suggestions_rpgc_entity(array $variables) {
   $suggestions[] = 'rpgc_entity__' . $entity->id();
   $suggestions[] = 'rpgc_entity__' . $entity->id() . '__' . $sanitized_view_mode;
   return $suggestions;
+}
+
+/**
+ * Implements hook_page_attachments().
+ */
+function rpgc_page_attachments(array &$page) {
+  if (\Drupal::routeMatch()->getRouteName() == 'rpgc.all_pcs_list') {
+    $page['#attached']['library'][] = 'rpgc/rpgc-library';
+  }
 }
