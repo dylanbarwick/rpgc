@@ -20,3 +20,8 @@ entity.rpgc_entity.delete_form:
   base_route:  entity.rpgc_entity.canonical
   title: Delete
   weight: 10
+
+rpgc.all_my_pcs_list:
+  route_name: rpgc.all_pcs_list
+  base_route: entity.user.canonical
+  title: 'All my characters'
