@@ -19,6 +19,9 @@ class RPGCEntityListBuilder extends EntityListBuilder {
   public function buildHeader() {
     $header['name'] = $this->t('Name');
     $header['system'] = $this->t('System');
+    $header['race'] = $this->t('Race');
+    $header['class'] = $this->t('Class/Profession');
+    $header['created'] = $this->t('Created');
     return $header + parent::buildHeader();
   }
 
@@ -34,6 +37,10 @@ class RPGCEntityListBuilder extends EntityListBuilder {
         ['rpgc_entity' => $entity->id()]
       );
       $row['system'] = $entity->type->entity->label();
+      $row['race'] = $entity->get('race')->getString();
+      $row['class'] = $entity->get('class')->getString();
+      $created = $entity->get('created')->getString();
+      $row['created'] = \Drupal::service('date.formatter')->format($created);
 
       return $row + parent::buildRow($entity);
     }
