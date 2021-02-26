@@ -47,6 +47,15 @@ function rpgc_dndbasic_form_alter(&$form, FormStateInterface $form_state, $form_
 
     $pc = $rpgc_create->generatePc();
 
+    // Option to clear.
+    $form['option_to_clear'] = [
+      '#type' => 'markup',
+      '#markup' => t('Clear all fields.'),
+      '#weight' => -20,
+      '#prefix' => '<div class="option-to-clear">',
+      '#suffix' => '</div>',
+    ];
+
     // Name.
     $form['name']['widget'][0]['value']['#default_value'] = $pc['name'];
 

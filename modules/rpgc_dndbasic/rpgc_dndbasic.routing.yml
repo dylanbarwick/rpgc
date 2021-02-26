@@ -5,3 +5,10 @@ rpgc_dndbasic.generator:
     _title: 'D&D Basic NPC generator'
   requirements:
     _permission: 'generate npcs'
+
+rpgc_dndbasic.ajax_roll_stat:
+  path: '/rpgc/ajax-roll-stat/{nojs}'
+  defaults:
+    _controller: '\Drupal\rpgc_dndbasic\Ajax\AjaxServices::ajaxRollStat'
+  requirements:
+    _permission: 'access content'
