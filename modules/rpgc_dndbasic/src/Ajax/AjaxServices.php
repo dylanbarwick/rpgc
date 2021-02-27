@@ -3,26 +3,15 @@
 namespace Drupal\rpgc_dndbasic\Ajax;
 
 use Drupal\Core\Ajax\CommandInterface;
-use Drupal\rpgc\Services\RpgcUtilityServiceInterface;
+use Drupal\Core\Ajax\AjaxResponse;
+use Drupal\Core\Ajax\AppendCommand;
+use Drupal\Core\Ajax\HtmlCommand;
+use Symfony\Component\HttpFoundation\Response;
 
 /**
  * Class AjaxServices.
  */
 class AjaxServices implements CommandInterface {
-
-  /**
-   * Drupal\rpgc\Services\RpgcUtilityServiceInterface definition.
-   *
-   * @var \Drupal\rpgc\Services\RpgcUtilityServiceInterface
-   */
-  protected $rpgcUtility;
-
-  /**
-   * Constructs a new RpgcDndbasicCreationService object.
-   */
-  public function __construct(RpgcUtilityServiceInterface $rpgc_utility) {
-    $this->rpgcUtility = $rpgc_utility;
-  }
 
   /**
    * Render custom ajax command.
@@ -40,14 +29,31 @@ class AjaxServices implements CommandInterface {
   /**
    * Roll dice and return array of info.
    *
-   * @param array $parameters
-   *   Values for dicetype, numthrown etc.
+   * @return ajax
+   *   Command function.
+   */
+  public function ajaxRollStat($nojs = 'nojs', $whichstat = NULL) {
+    // $return = $this->rpgcUtility->rollStat($parameters);
+    // $return = 'test-roll';
+    $output = $whichstat;
+    $response = new AjaxResponse();
+    $response->addCommand(new HtmlCommand('#ajax-example-destination-div', $output));
+
+    // See ajax_example_advanced.inc for more details on the available
+    // commands and how to use them.
+    // $page = array('#type' => 'ajax', '#commands' => $commands);
+    // ajax_deliver($response);
+    return $response;
+  }
+
+  /**
+   * Generate name.
    *
    * @return ajax
    *   Command function.
    */
-  public function ajaxRollStat(array $parameters) {
-    $return = $this->rpgcUtility->rollStat($parameters);
+  public function ajaxGenerateName() {
+    $return = $this->rpgcUtility->generateName($parameters);
     return [
       'command' => 'rollStat',
       'message' => $return,

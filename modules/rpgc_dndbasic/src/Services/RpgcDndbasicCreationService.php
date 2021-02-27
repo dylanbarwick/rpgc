@@ -48,10 +48,10 @@ class RpgcDndbasicCreationService implements RpgcDndbasicCreationServiceInterfac
     }
     rsort($lowdie);
 
-    $rolled_message = '<br/>[rolled: ';
+    $rolled_message = '<div class="rolly-readout">[rolled: ';
     $rolled_message .= implode(', ', $rollem['dicethrown']);
     if (count($lowdie) > 0) {
-      $rolled_message .= ' (' . implode(', ', $lowdie) . ')]';
+      $rolled_message .= ' (' . implode(', ', $lowdie) . ')]</div>';
     }
     $rollo = $rollem;
     $rollo['message'] = $rolled_message;

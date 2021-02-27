@@ -8,6 +8,8 @@
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Url;
+use Drupal\Core\Link;
 
 /**
  * Implements hook_help().
@@ -41,6 +43,7 @@ function rpgc_dndbasic_theme() {
  */
 function rpgc_dndbasic_form_alter(&$form, FormStateInterface $form_state, $form_id) {
   if ($form_id == 'rpgc_entity_rpgc_dndbasic_add_form') {
+    // dump($form);
 
     $rpgc_create = Drupal::service('rpgc_dndbasic.creation');
     $systemconfig = $rpgc_create->getSystemConfig();
@@ -56,14 +59,53 @@ function rpgc_dndbasic_form_alter(&$form, FormStateInterface $form_state, $form_
       '#suffix' => '</div>',
     ];
 
+    // Destination div.
+    $form['destination_div'] = [
+      '#type' => 'markup',
+      '#markup' => t('Destination div'),
+      '#weight' => -20,
+      '#prefix' => '<div id="ajax-example-destination-div">',
+      '#suffix' => '</div>',
+    ];
+
     // Name.
     $form['name']['widget'][0]['value']['#default_value'] = $pc['name'];
+    $form['name-gen'] = [
+      '#type' => 'button',
+      '#value' => t('Generate name'),
+      '#attached' => ['library' => ['core/drupal.ajax']],
+      '#attributes' => [
+        'class' => [
+          'use-ajax',
+        ],
+      ],
+      '#url' => Url::fromRoute('rpgc_dndbasic.ajax_generate_name', ['nojs' => 'nojs']),
+    ];
 
     // Stats.
     $defaultdice = $systemconfig['defaultdicedetails'];
     foreach ($systemconfig['statistics'] as $key => $value) {
       $form['field_' . $key]['widget'][0]['value']['#default_value'] = $pc['details']['full_stat'][$key]['sum'];
       $form['field_' . $key]['widget'][0]['value']['#description'] .= $pc['details']['full_stat'][$key]['message'];
+      $rollfor = Link::createFromRoute(
+        t('Roll for `@statlabel` again...', ['@statlabel' => $form['field_' . $key]['widget'][0]['value']['#title']]),
+        'rpgc_dndbasic.ajax_roll_stat',
+        ['nojs' => 'ajax', 'whichstat' => $key],
+        ['attributes' => ['class' => 'use-ajax']])
+        ->toString();
+      $form['field_' . $key]['#suffix'] = $rollfor;//'<div class="use-ajax stat-suffix" id="stat-suffix-' . $key . '">Roll for `' . $form['field_' . $key]['widget'][0]['value']['#title'] . '` again...</div>';
+      // $form['roll-stat-' . $key] = [
+      //   '#type' => 'button',
+      //   '#value' => t('Generate stat - @key', ['@key' => $key]),
+      //   '#attached' => ['library' => ['core/drupal.ajax']],
+      //   '#attributes' => [
+      //     'class' => [
+      //       'use-ajax',
+      //     ],
+      //   ],
+      //   '#url' => Url::fromRoute('rpgc_dndbasic.ajax_roll_stat', ['nojs' => 'nojs']),
+      //   '#weight' => $form['field_' . $key]['#weight'],
+      // ];
     }
 
     // Alignment.

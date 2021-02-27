@@ -7,8 +7,15 @@ rpgc_dndbasic.generator:
     _permission: 'generate npcs'
 
 rpgc_dndbasic.ajax_roll_stat:
-  path: '/rpgc/ajax-roll-stat/{nojs}'
+  path: '/rpgc/ajax-roll-stat/{nojs}/{whichstat}'
   defaults:
     _controller: '\Drupal\rpgc_dndbasic\Ajax\AjaxServices::ajaxRollStat'
+  requirements:
+    _permission: 'access content'
+
+rpgc_dndbasic.ajax_generate_name:
+  path: '/rpgc/ajax-generate-name/{nojs}'
+  defaults:
+    _controller: '\Drupal\rpgc_dndbasic\Ajax\AjaxServices::ajaxGenerateName'
   requirements:
     _permission: 'access content'

@@ -3,13 +3,13 @@
 */
 
 (function ($, Drupal) {
-  Drupal.AjaxCommands.prototype.rollDice = function (ajax, response, status) {
+  Drupal.AjaxCommands.prototype.rollStat = function (ajax, response, status) {
     console.log(response.message);
   }
 
   $('.option-to-clear').on('click touchup', function(e) {
     console.log('clear');
-    $('input[type!="hidden"], select').each( function(i) {
+    $('input[type!="hidden"], input[type!="submit"], select').each( function(i) {
       $(this).val('');
     });
   });
