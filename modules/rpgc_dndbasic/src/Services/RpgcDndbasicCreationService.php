@@ -39,7 +39,12 @@ class RpgcDndbasicCreationService implements RpgcDndbasicCreationServiceInterfac
    * @return array
    *   The results of rollDice() along with the description addendum.
    */
-  public function rollStat(array $defaultdice) {
+  public function rollStat(array $defaultdice = NULL) {
+    // If no defaultdicedetails are passed, take from the system yaml file.
+    if (!$defaultdice) {
+      $systemconfig = $this->rpgcUtility->readMyYaml('rpgc_dndbasic');
+      $defaultdice = $systemconfig['defaultdicedetails'];
+    }
     $lowdie = [];
     $rollem = $this->rpgcUtility->rollDice($defaultdice['dietype'], $defaultdice['numthrown'], $defaultdice['numcounted']);
     $diff = $defaultdice['numthrown'] - $defaultdice['numcounted'];
@@ -349,7 +354,6 @@ class RpgcDndbasicCreationService implements RpgcDndbasicCreationServiceInterfac
 
     // Set up the $params array for the name generator.
     // [firstlast, race, malefemale, genre, originator, culture].
-    // dump($row);
     $params = [
       'firstlast' => ['first'],
       'race' => [$row['details']['class']['race']],
@@ -362,6 +366,16 @@ class RpgcDndbasicCreationService implements RpgcDndbasicCreationServiceInterfac
     $row['name'] .= ' ' . $this->rpgcUtility->generateName($params);
 
     return $row;
+  }
+
+  /**
+   * Generate a name.
+   *
+   * @params array $params
+   *   Parameters necessary for name generation.
+   */
+  public function generateName(array $params) {
+    return $this->rpgcUtility->generateName($params);
   }
 
   /**

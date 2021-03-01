@@ -10,7 +10,7 @@ entity_type: rpgc_entity
 bundle: rpgc_dndbasic
 label: Dexterity
 description: 'A measure of speed and agility.'
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''

@@ -10,7 +10,7 @@ entity_type: rpgc_entity
 bundle: rpgc_dndbasic
 label: Wisdom
 description: 'Inspiration, intuition, common sense and shrewdness.'
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''

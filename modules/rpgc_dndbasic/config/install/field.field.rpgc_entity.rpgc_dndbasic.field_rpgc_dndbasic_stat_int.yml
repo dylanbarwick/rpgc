@@ -10,7 +10,7 @@ entity_type: rpgc_entity
 bundle: rpgc_dndbasic
 label: Intelligence
 description: 'The ability to learn and remember knowledge and the ability to solve problems.'
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''
