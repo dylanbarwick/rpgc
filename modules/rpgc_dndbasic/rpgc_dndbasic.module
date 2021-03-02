@@ -121,7 +121,6 @@ function rpgc_dndbasic_form_alter(&$form, FormStateInterface $form_state, $form_
     $form['#attached']['library'][] = 'rpgc_dndbasic/rpgc_dndbasic-library';
   }
 
-  // dump($form);
 }
 
 /**
