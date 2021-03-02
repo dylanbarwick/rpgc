@@ -2,8 +2,13 @@
   /* background-color: #dafada; */
 }
 
-.rpgc-entity-form .form-wrapper .form-item {
+.rpgc-entity-form .form-wrapper {
   margin-bottom: 1em;
+}
+
+.rpgc-entity-form .form-wrapper.field--stat,
+.rpgc-entity-form .form-wrapper .form-item {
+  margin-bottom: 0;
 }
 
 .rpgc-entity-form .form-wrapper .form-item label {
@@ -24,6 +29,27 @@
   font-style: italic;
   margin-left: 1.2em;
   font-size: 0.8em;
+}
+
+.ara-container {
+  margin-left: 0.6em;
+  margin-bottom: 1.5em;
+}
+
+.ara-container a.ajax-roll-again {
+  background-color: #cccccc;
+  padding: 0.3em;
+  border-radius: 0.4em;
+  color: #000000;
+  text-decoration: none;
+  font-size: 0.9em;
+  transition: 0.2s;
+}
+
+.ara-container a.ajax-roll-again:hover {
+  background-color: #333333;
+  color: #ffffff;
+  text-decoration: none;
 }
 
 .dropbutton-widget {
