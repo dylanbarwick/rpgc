@@ -8,6 +8,7 @@
 use Drupal\Core\Routing\RouteMatchInterface;
 use Drupal\Core\Form\FormStateInterface;
 use Drupal\Core\Entity\EntityInterface;
+use Drupal\Core\Link;
 
 /**
  * Implements hook_help().
@@ -47,14 +48,50 @@ function rpgc_dndbasic_form_alter(&$form, FormStateInterface $form_state, $form_
 
     $pc = $rpgc_create->generatePc();
 
+    // Option to clear.
+    $form['option_to_clear'] = [
+      '#type' => 'markup',
+      '#markup' => t('Clear all fields and make up a character from scratch.'),
+      '#weight' => -20,
+      '#prefix' => '<div class="option-to-clear">',
+      '#suffix' => '</div>',
+    ];
+
     // Name.
     $form['name']['widget'][0]['value']['#default_value'] = $pc['name'];
+    $name_gen = Link::createFromRoute(
+      t('Get another name'),
+      'rpgc_dndbasic.ajax_generate_name',
+      [
+        'nojs' => 'ajax',
+        'race' => $pc['details']['class']['race'],
+        'malefemale' => $pc['sex'],
+      ],
+      ['attributes' => ['class' => 'use-ajax']])
+      ->toString();
+    $form['name']['#suffix'] = $name_gen;
 
     // Stats.
     $defaultdice = $systemconfig['defaultdicedetails'];
     foreach ($systemconfig['statistics'] as $key => $value) {
       $form['field_' . $key]['widget'][0]['value']['#default_value'] = $pc['details']['full_stat'][$key]['sum'];
       $form['field_' . $key]['widget'][0]['value']['#description'] .= $pc['details']['full_stat'][$key]['message'];
+      $form['field_' . $key]['#attributes']['class'][] = 'field--stat';
+      $rollfor = Link::createFromRoute(
+        t('Roll for `@statlabel` again...', ['@statlabel' => $form['field_' . $key]['widget'][0]['value']['#title']]),
+        'rpgc_dndbasic.ajax_roll_stat',
+        ['nojs' => 'ajax', 'whichstat' => $key],
+        [
+          'attributes' => [
+            'class' => [
+              'use-ajax',
+              'ajax-roll-again',
+            ],
+            'id' => 'ara-' . $key,
+          ],
+        ])
+        ->toString();
+      $form['field_' . $key]['#suffix'] = '<div class="ara-container">' . $rollfor . '</div>';
     }
 
     // Alignment.
@@ -83,6 +120,7 @@ function rpgc_dndbasic_form_alter(&$form, FormStateInterface $form_state, $form_
   if (in_array($form_id, $forms_to_add_to)) {
     $form['#attached']['library'][] = 'rpgc_dndbasic/rpgc_dndbasic-library';
   }
+
 }
 
 /**

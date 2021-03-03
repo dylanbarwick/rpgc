@@ -10,7 +10,7 @@ entity_type: rpgc_entity
 bundle: rpgc_dndbasic
 label: Constitution
 description: 'A measure of health and endurance.'
-required: false
+required: true
 translatable: false
 default_value: {  }
 default_value_callback: ''

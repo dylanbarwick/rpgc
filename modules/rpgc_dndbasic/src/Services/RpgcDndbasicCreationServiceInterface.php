@@ -100,4 +100,12 @@ interface RpgcDndbasicCreationServiceInterface {
    */
   public function generatePc(array $params);
 
+  /**
+   * Generate a name.
+   *
+   * @params array $params
+   *   Parameters necessary for name generation.
+   */
+  public function generateName(array $params);
+
 }
