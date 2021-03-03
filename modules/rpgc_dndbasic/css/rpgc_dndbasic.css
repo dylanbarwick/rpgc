@@ -7,6 +7,10 @@
   width: 5em;
 }
 
+.rpgc-entity-form .form-wrapper .form-item input#edit-race-0-value {
+  pointer-events: none;
+}
+
 // Statistics.
 #dndbasic-stats {
   display: flex;

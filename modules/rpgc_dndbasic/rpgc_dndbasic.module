@@ -108,10 +108,11 @@ function rpgc_dndbasic_form_alter(&$form, FormStateInterface $form_state, $form_
 
     // Race.
     $form['race']['widget'][0]['value']['#default_value'] = $pc['details']['class']['race'];
+    $form['race']['widget'][0]['value']['#attributes']['tabindex'] = '-1';
 
     // Hit points.
     $form['field_rpgc_dndbasic_hp']['widget'][0]['value']['#default_value'] = $pc['hitpoints'];
-
+    // dump($form);
   }
   $forms_to_add_to = [
     'rpgc_entity_rpgc_dndbasic_edit_form',
