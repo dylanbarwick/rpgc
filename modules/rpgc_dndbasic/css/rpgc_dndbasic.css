@@ -11,7 +11,32 @@
   pointer-events: none;
 }
 
-// Statistics.
+.rpgc-entity-form .form-wrapper .form-item select#edit-sex-0-value {
+  padding-right: 2em;
+}
+
+
+/* HTML% details styling on the add/edit form. */
+#rpgc-entity-rpgc-dndbasic-add-form details,
+#rpgc-entity-rpgc-dndbasic-edit-form details {
+  border: 1px #999 solid;
+  padding: 0.5em;
+  border-radius: 0.4em;
+  box-shadow: inset 0 0 8px rgba(0, 0, 0, 0.5);
+}
+
+#rpgc-entity-rpgc-dndbasic-add-form details summary,
+#rpgc-entity-rpgc-dndbasic-edit-form details summary {
+  font-size: 1.5em;
+  background-image: url('../images/paper-texture.jpg');
+  background-repeat: repeat;
+  border-radius: 0.2em;
+  border: 1px #BEAD6A solid;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.4);
+  padding: 0.2em 0.7em;
+}
+
+/* Statistics. */
 #dndbasic-stats {
   display: flex;
   justify-content: space-between;

@@ -23,6 +23,7 @@
   margin-left: 1em;
   margin-bottom: 0.4em;
   padding: 0.3em 0.5em;
+  max-width: 90%;
 }
 
 .rpgc-entity-form .form-wrapper .form-item .description {

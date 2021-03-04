@@ -98,6 +98,9 @@ function rpgc_dndbasic_form_alter(&$form, FormStateInterface $form_state, $form_
     $form['field_rpgc_dndbasic_align']['widget']['#default_value'] = $pc['alignment'];
 
     // Sex.
+    $form['sex']['widget'][0]['value']['#type'] = 'select';
+    $form['sex']['widget'][0]['value']['#options'] = ['male' => t('Male'), 'female' => t('Female')];
+    $form['sex']['widget'][0]['value']['#size'] = NULL;
     $form['sex']['widget'][0]['value']['#default_value'] = $pc['sex'];
 
     // Class.
