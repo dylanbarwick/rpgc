@@ -12,6 +12,76 @@ dependencies:
     - field.field.rpgc_entity.rpgc_dndbasic.field_rpgc_dndbasic_stat_str
     - field.field.rpgc_entity.rpgc_dndbasic.field_rpgc_dndbasic_stat_wis
     - rpgc.rpgc_entity_type.rpgc_dndbasic
+  module:
+    - field_group
+third_party_settings:
+  field_group:
+    group_rpgc_dndbasic_stats:
+      children:
+        - field_rpgc_dndbasic_stat_str
+        - field_rpgc_dndbasic_stat_int
+        - field_rpgc_dndbasic_stat_wis
+        - field_rpgc_dndbasic_stat_dex
+        - field_rpgc_dndbasic_stat_con
+        - field_rpgc_dndbasic_stat_cha
+      parent_name: ''
+      weight: 0
+      format_type: details
+      region: content
+      format_settings:
+        description: 'The statistics that measure the attributes of your character.'
+        open: true
+        required_fields: true
+        id: rpgc-dndbasic-stats
+        classes: ''
+      label: Stats
+    group_rpgc_dndbasic_class:
+      children:
+        - class
+        - race
+      parent_name: ''
+      weight: 1
+      format_type: details
+      region: content
+      format_settings:
+        description: ''
+        open: true
+        required_fields: true
+        id: rpgc-dndbasic-class
+        classes: ''
+      label: Class
+    group_rpgc_dndbasic_other:
+      children:
+        - sex
+        - field_rpgc_dndbasic_lvl
+        - field_rpgc_dndbasic_hp
+        - field_rpgc_dndbasic_align
+      parent_name: ''
+      weight: 2
+      format_type: details
+      region: content
+      format_settings:
+        description: ''
+        open: true
+        required_fields: true
+        id: rpgc-dndbasic-other
+        classes: ''
+      label: Other
+    group_rpgc_dndbasic_self:
+      children:
+        - name
+        - history
+      parent_name: ''
+      weight: 3
+      format_type: details
+      region: content
+      format_settings:
+        description: ''
+        open: true
+        required_fields: true
+        id: rpgc-dndbasic-self
+        classes: ''
+      label: Self
 id: rpgc_entity.rpgc_dndbasic.default
 targetEntityType: rpgc_entity
 bundle: rpgc_dndbasic
@@ -19,69 +89,69 @@ mode: default
 content:
   class:
     type: string_textfield
-    weight: 3
+    weight: 5
     region: content
     settings:
       size: 60
       placeholder: ''
     third_party_settings: {  }
   field_rpgc_dndbasic_align:
-    weight: 6
+    weight: 7
     settings: {  }
     third_party_settings: {  }
     type: options_select
     region: content
   field_rpgc_dndbasic_hp:
-    weight: 5
+    weight: 6
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
     region: content
   field_rpgc_dndbasic_lvl:
-    weight: 4
+    weight: 5
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
     region: content
   field_rpgc_dndbasic_stat_cha:
-    weight: 12
+    weight: 13
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
     region: content
   field_rpgc_dndbasic_stat_con:
-    weight: 11
+    weight: 12
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
     region: content
   field_rpgc_dndbasic_stat_dex:
-    weight: 10
+    weight: 11
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
     region: content
   field_rpgc_dndbasic_stat_int:
-    weight: 8
+    weight: 9
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
     region: content
   field_rpgc_dndbasic_stat_str:
-    weight: 7
+    weight: 8
     settings:
       placeholder: ''
     third_party_settings: {  }
     type: number
     region: content
   field_rpgc_dndbasic_stat_wis:
-    weight: 9
+    weight: 10
     settings:
       placeholder: ''
     third_party_settings: {  }
@@ -89,7 +159,7 @@ content:
     region: content
   history:
     type: string_textarea
-    weight: 13
+    weight: 5
     settings:
       rows: 4
       placeholder: ''
@@ -97,7 +167,7 @@ content:
     third_party_settings: {  }
   name:
     type: string_textfield
-    weight: 0
+    weight: 4
     region: content
     settings:
       size: 60
@@ -105,7 +175,7 @@ content:
     third_party_settings: {  }
   race:
     type: string_textfield
-    weight: 2
+    weight: 6
     region: content
     settings:
       size: 60
@@ -113,7 +183,7 @@ content:
     third_party_settings: {  }
   sex:
     type: string_textfield
-    weight: 1
+    weight: 4
     region: content
     settings:
       size: 60
@@ -121,7 +191,7 @@ content:
     third_party_settings: {  }
   user_id:
     type: entity_reference_autocomplete
-    weight: 14
+    weight: 6
     settings:
       match_operator: CONTAINS
       size: 60
